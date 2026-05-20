@@ -23,10 +23,13 @@ module com.facialaccess {
     
     // Exports et opens pour JavaFX
     opens com.facialaccess to javafx.fxml;
-    opens com.facialaccess.ui to javafx.fxml;
+    opens com.facialaccess.presentation to javafx.fxml;
     
     exports com.facialaccess;
-    exports com.facialaccess.ui;
+    exports com.facialaccess.presentation;
     exports com.facialaccess.model;
     exports com.facialaccess.service;
+    exports com.facialaccess.dao;
+    exports com.facialaccess.util;
+    exports com.facialaccess.vision;
 }

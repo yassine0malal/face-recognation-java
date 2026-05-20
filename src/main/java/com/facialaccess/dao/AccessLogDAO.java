@@ -1,4 +1,4 @@
-package com.facialaccess.data;
+package com.facialaccess.dao;
 
 /**
  * Data Access Object pour les logs d'accès.

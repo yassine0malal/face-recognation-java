@@ -1,4 +1,4 @@
-package com.facialaccess.data;
+package com.facialaccess.dao;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

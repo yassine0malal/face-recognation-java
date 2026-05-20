@@ -1,6 +1,6 @@
 package com.facialaccess;
 
-import com.facialaccess.data.DatabaseManager;
+import com.facialaccess.dao.DatabaseManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

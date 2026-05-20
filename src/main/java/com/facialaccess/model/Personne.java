@@ -3,35 +3,31 @@ package com.facialaccess.model;
 import java.time.LocalDateTime;
 
 /**
- * Modèle représentant un utilisateur du système.
- * Correspond à la table USERS.
+ * Classe mère représentant une personne dans le système.
+ * Correspond à la table PERSONNE.
  */
-public class User {
+public abstract class Personne {
     
-    private Integer id;
-    private String fullName;
-    private String role;
-    private String email;
-    private byte[] faceVector;
-    private String qrCodeData;
-    private LocalDateTime createdAt;
-    private boolean isActive;
+    protected Integer id;
+    protected String fullName;
+    protected String email;
+    protected LocalDateTime createdAt;
+    protected boolean isActive;
+    protected String type; // 'ADMIN' ou 'UTILISATEUR'
     
     // Constructeur vide
-    public User() {
+    public Personne() {
     }
     
-    // Constructeur complet
-    public User(Integer id, String fullName, String role, String email, 
-                byte[] faceVector, String qrCodeData, LocalDateTime createdAt, boolean isActive) {
+    // Constructeur avec paramètres
+    public Personne(Integer id, String fullName, String email, 
+                    LocalDateTime createdAt, boolean isActive, String type) {
         this.id = id;
         this.fullName = fullName;
-        this.role = role;
         this.email = email;
-        this.faceVector = faceVector;
-        this.qrCodeData = qrCodeData;
         this.createdAt = createdAt;
         this.isActive = isActive;
+        this.type = type;
     }
     
     // Getters et Setters
@@ -51,36 +47,12 @@ public class User {
         this.fullName = fullName;
     }
     
-    public String getRole() {
-        return role;
-    }
-    
-    public void setRole(String role) {
-        this.role = role;
-    }
-    
     public String getEmail() {
         return email;
     }
     
     public void setEmail(String email) {
         this.email = email;
-    }
-    
-    public byte[] getFaceVector() {
-        return faceVector;
-    }
-    
-    public void setFaceVector(byte[] faceVector) {
-        this.faceVector = faceVector;
-    }
-    
-    public String getQrCodeData() {
-        return qrCodeData;
-    }
-    
-    public void setQrCodeData(String qrCodeData) {
-        this.qrCodeData = qrCodeData;
     }
     
     public LocalDateTime getCreatedAt() {
@@ -99,13 +71,21 @@ public class User {
         isActive = active;
     }
     
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     @Override
     public String toString() {
-        return "User{" +
+        return "Personne{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
+                ", type='" + type + '\'' +
                 ", isActive=" + isActive +
                 '}';
     }

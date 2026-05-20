@@ -4,6 +4,6 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.ui.AccessLogController">
+      fx:controller="com.facialaccess.presentation.AccessLogController">
     <!-- À implémenter -->
 </VBox>

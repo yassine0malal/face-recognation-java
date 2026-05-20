@@ -1,4 +1,4 @@
-package com.facialaccess.ui;
+package com.facialaccess.presentation;
 
 /**
  * Contrôleur pour l'historique des accès.
