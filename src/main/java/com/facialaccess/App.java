@@ -2,29 +2,48 @@ package com.facialaccess;
 
 import com.facialaccess.dao.DatabaseManager;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * Point d'entrée principal de l'application Facial Access System.
- * Lance l'interface JavaFX.
- */
 public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Initialiser la base de données
-        DatabaseManager.getInstance();
-        
-        primaryStage.setTitle("Facial Access System - OK");
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(600);
-        primaryStage.show();
+        try {
+            // Safe Database Init
+            DatabaseManager.getInstance();
+            
+            // Load the initial interface (e.g., login.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
+            Parent root = loader.load();
+            
+            Scene scene = new Scene(root, 800, 600);
+            
+            // Link the global modern design stylesheet directly from resources
+            String cssPath = getClass().getResource("/styles.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
+            
+            primaryStage.setTitle("VigilantCore - Security Portal");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            
+        } catch (Exception e) {
+            System.err.println("Failed to launch main viewport interface framework context.");
+            e.printStackTrace();
+        }
     }
     
     @Override
     public void stop() {
-        // Fermer la connexion à la base de données
-        DatabaseManager.getInstance().close();
+        try {
+            if (DatabaseManager.getInstance() != null) {
+                DatabaseManager.getInstance().close();
+            }
+        } catch (Exception e) {
+            System.err.println("Error gracefully disconnecting database architecture: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

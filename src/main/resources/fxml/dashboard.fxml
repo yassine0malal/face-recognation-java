@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.presentation.DashboardController">
-    <!-- À implémenter -->
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx/17"
+  xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.facialaccess.presentation.DashboardController"
+  prefWidth="1024.0" prefHeight="768.0"
+  styleClass="root">
+
+  <left>
+    <VBox prefWidth="250.0" styleClass="sidebar">
+      <children>
+        <Label text="VigilantCore" styleClass="heading-title" />
+        <Label text="Security Control Center" styleClass="sub-text" />
+
+        <Region prefHeiidx_personne_typeght="30.0" />
+
+        <Button text="📊 Overview Log" maxWidth="Infinity"
+          onAction="#handleShowLogsView" styleClass="sidebar-button-active" />
+        <Button text="📹 Live Camera Terminal" maxWidth="Infinity"
+          onAction="#handleShowCameraView"
+          style="-fx-background-color: transparent; -fx-text-fill: #0F172A;" />
+        <Button text="👥 Personnel Records" maxWidth="Infinity"
+          onAction="#handleShowUserManagementView"
+          style="-fx-background-color: transparent; -fx-text-fill: #0F172A;" />
+      </children>
+    </VBox>
+  </left>
+
+  <center>
+    <StackPane fx:id="mainContentArea" style="-fx-padding: 32px;">
+    </StackPane>
+  </center>
+
+</BorderPane>
