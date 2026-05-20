@@ -1,4 +1,4 @@
-package com.facialaccess.ui;
+package com.facialaccess.presentation;
 
 /**
  * Contrôleur pour le tableau de bord principal.

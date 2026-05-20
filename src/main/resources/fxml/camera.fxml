@@ -4,6 +4,6 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.ui.CameraController">
+      fx:controller="com.facialaccess.presentation.CameraController">
     <!-- À implémenter -->
 </VBox>

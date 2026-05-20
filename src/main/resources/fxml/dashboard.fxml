@@ -4,6 +4,6 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.ui.DashboardController">
+      fx:controller="com.facialaccess.presentation.DashboardController">
     <!-- À implémenter -->
 </VBox>
