@@ -2,6 +2,7 @@ module com.facialaccess {
     // JavaFX
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.swing;
     
     // Base de données
     requires java.sql;
@@ -20,6 +21,10 @@ module com.facialaccess {
     // JavaCV et OpenCV
     requires org.bytedeco.javacv;
     requires org.bytedeco.opencv;
+    
+    // Ikonli for Icons
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.materialdesign2;
     
     // Exports et opens pour JavaFX
     opens com.facialaccess to javafx.fxml;

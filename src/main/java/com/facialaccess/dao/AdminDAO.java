@@ -41,6 +41,13 @@ public class AdminDAO {
     }
     
     /**
+     * Alias pour getAdminByUsername.
+     */
+    public Admin findByUsername(String username) {
+        return getAdminByUsername(username);
+    }
+    
+    /**
      * Met à jour les tentatives échouées d'un admin.
      */
     public boolean updateFailedAttempts(int adminId, int failedAttempts, LocalDateTime lockedUntil) {

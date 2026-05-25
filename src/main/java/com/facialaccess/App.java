@@ -1,6 +1,7 @@
 package com.facialaccess;
 
 import com.facialaccess.dao.DatabaseManager;
+import com.facialaccess.util.NavigationUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,13 +13,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Initialiser la base de données
-        DatabaseManager.getInstance();
-        
-        primaryStage.setTitle("Facial Access System - OK");
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(600);
-        primaryStage.show();
+        try {
+            DatabaseManager.getInstance();
+            NavigationUtil.navigateToWelcome(primaryStage);
+            primaryStage.show();
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement de l'application: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     @Override

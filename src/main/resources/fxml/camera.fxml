@@ -1,9 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Circle?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.presentation.CameraController">
-    <!-- À implémenter -->
-</VBox>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.facialaccess.presentation.CameraController"
+            prefWidth="1024" prefHeight="768"
+            stylesheets="@../css/camera.css"
+            style="-fx-background-color: linear-gradient(to bottom, #e8eef5 0%, #d4dce8 100%);">
+
+    <!-- TOP: Header identique au login -->
+    <top>
+        <BorderPane style="-fx-padding: 25;">
+            <left>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <FontIcon iconLiteral="mdi2s-shield-check" iconSize="32" iconColor="#0d47a1"/>
+                    <Label text="Sentinel Precision"
+                           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;"/>
+                </HBox>
+            </left>
+            <right>
+                <HBox alignment="CENTER_RIGHT" spacing="10">
+                    <Region fx:id="statusDot" styleClass="status-dot"/>
+                    <Label fx:id="statusTopLabel" text="INITIALIZING..."
+                           style="-fx-font-size: 11px; -fx-text-fill: #555; -fx-font-weight: 600;"/>
+                </HBox>
+            </right>
+        </BorderPane>
+    </top>
+
+    <!-- CENTER: Flux caméra dans le cercle -->
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+
+            <!-- Cercle avec flux caméra à l'intérieur -->
+            <StackPane fx:id="cameraCirclePane" maxWidth="360" maxHeight="360">
+
+                <!-- Cercle de fond blanc -->
+                <Circle fx:id="bgCircle" radius="178"
+                        fill="white"
+                        style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 20, 0, 0, 4);"/>
+
+                <!-- ImageView du flux caméra (clippé en cercle par le contrôleur) -->
+                <ImageView fx:id="cameraView"
+                           fitWidth="356" fitHeight="356"
+                           preserveRatio="false"/>
+
+                <!-- Icône placeholder (cachée quand la caméra est active) -->
+                <FontIcon fx:id="placeholderIcon"
+                          iconLiteral="mdi2a-account-outline"
+                          iconSize="110" iconColor="#c8d0da"/>
+
+                <!-- Cercle de bordure animé (par-dessus le flux) -->
+                <Circle fx:id="outerCircle" radius="178"
+                        fill="transparent"
+                        stroke="#5c7cfa"
+                        strokeWidth="4"
+                        styleClass="scanning-circle"/>
+
+            </StackPane>
+
+            <!-- Statut sous le cercle -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label fx:id="statusLabel" text="Scanning face..."
+                       style="-fx-font-size: 18px; -fx-font-weight: 500; -fx-text-fill: #2c3e50;"/>
+                <Label fx:id="instructionLabel" text="Position your face within the circle"
+                       style="-fx-font-size: 13px; -fx-text-fill: #6c757d;"/>
+                <ProgressIndicator fx:id="progressIndicator" prefWidth="32" prefHeight="32"
+                                   visible="false" managed="false"/>
+            </VBox>
+
+            <!-- Boutons d'action -->
+            <HBox fx:id="actionButtons" alignment="CENTER" spacing="15"
+                  visible="false" managed="false">
+                <Button fx:id="retryButton" text="Retry" onAction="#handleRetry"
+                        styleClass="secondary-button">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2r-refresh" iconSize="16" iconColor="#6c757d"/>
+                    </graphic>
+                </Button>
+                <Button fx:id="cancelButton" text="Back" onAction="#handleCancel"
+                        styleClass="secondary-button">
+                    <graphic>
+                        <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="16" iconColor="#6c757d"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+        </VBox>
+    </center>
+
+    <!-- BOTTOM: Footer -->
+    <bottom>
+        <VBox alignment="CENTER" spacing="8" style="-fx-padding: 0 0 25 0;">
+            <HBox alignment="CENTER" spacing="20">
+                <Label text="SENTINEL PRECISION"
+                       style="-fx-font-size: 11px; -fx-text-fill: #555; -fx-font-weight: 700; -fx-letter-spacing: 1px;"/>
+                <Label text="© 2024 Sentinel Precision Biometrics. All Rights Reserved."
+                       style="-fx-font-size: 10px; -fx-text-fill: #888;"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
