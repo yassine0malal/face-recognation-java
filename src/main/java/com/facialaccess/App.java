@@ -16,13 +16,13 @@ public class App extends Application {
             DatabaseManager.getInstance();
             
             // Load the initial interface (e.g., login.fxml)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard_parent.fxml"));
             Parent root = loader.load();
             
             Scene scene = new Scene(root, 800, 600);
             
             // Link the global modern design stylesheet directly from resources
-            String cssPath = getClass().getResource("/styles.css").toExternalForm();
+            String cssPath = getClass().getResource("/css/global.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
             
             primaryStage.setTitle("VigilantCore - Security Portal");

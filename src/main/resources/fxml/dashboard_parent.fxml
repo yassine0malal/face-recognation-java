@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import java.net.URL?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.facialaccess.presentation.DashboardController"
+            prefWidth="1440.0" prefHeight="900.0" styleClass="root">
+    
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/dashboard.css" />
+    </stylesheets>
+    
+    <left>
+        <VBox prefWidth="280.0" styleClass="sidebar" alignment="TOP_LEFT">
+            <Label text="VigilantCore" styleClass="heading-title" />
+            <Label text="Admin Control Center" styleClass="sub-text" />
+            
+            <Region prefHeight="16.0" />
+            
+            <Button text="📊  Dashboard" maxWidth="Infinity" styleClass="sidebar-button-active" 
+                    onAction="#handleShowLogsView" />
+            <Button text="👥  Personnel" maxWidth="Infinity" styleClass="sidebar-button" 
+                    onAction="#handleShowUserManagementView" />
+            <Button text="📋  Logs" maxWidth="Infinity" styleClass="sidebar-button" 
+                    onAction="#handleShowLogsView" />
+            <Button text="🎥  Live Camera" maxWidth="Infinity" styleClass="sidebar-button" 
+                    onAction="#handleShowCameraView" />
+            
+            <Region VBox.vgrow="ALWAYS" />
+            
+            <HBox spacing="12" style="-fx-background-color: #E2E8F0; -fx-padding: 12; -fx-background-radius: 8;">
+                <Circle radius="16.0" fill="#64748B" />
+                <VBox alignment="CENTER_LEFT">
+                    <Label text="Operator 01" style="-fx-font-weight: bold; -fx-text-fill: #0F172A;" />
+                    <HBox alignment="CENTER_LEFT" spacing="4">
+                        <Circle radius="3" fill="#10B981" />
+                        <Label text="SYSTEM SECURE" style="-fx-font-size: 10px; -fx-text-fill: #10B981; -fx-font-weight: bold;" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="mainContentArea" style="-fx-padding: 32px;" />
+    </center>
+</BorderPane>
