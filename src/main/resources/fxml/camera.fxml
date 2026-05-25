@@ -17,7 +17,13 @@
     <top>
         <BorderPane style="-fx-padding: 25;">
             <left>
-                <HBox alignment="CENTER_LEFT" spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="15">
+                    <Button onAction="#handleCancel"
+                            style="-fx-background-color: transparent; -fx-cursor: hand; -fx-border-width: 0; -fx-padding: 5;">
+                        <graphic>
+                            <FontIcon iconLiteral="mdi2a-arrow-left" iconSize="22" iconColor="#0d47a1"/>
+                        </graphic>
+                    </Button>
                     <FontIcon iconLiteral="mdi2s-shield-check" iconSize="32" iconColor="#0d47a1"/>
                     <Label text="Sentinel Precision"
                            style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0d47a1;"/>
