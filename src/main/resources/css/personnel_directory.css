@@ -1,0 +1,214 @@
+/* --- Page Header Section --- */
+.headline-lg {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.subtitle-text {
+    -fx-font-size: 15px;
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Top Action Section --- */
+.filter-chip {
+    -fx-background-color: #F9FAFB;
+    -fx-border-color: #D1D5DB;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 18px;
+    -fx-text-fill: #374151;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-cursor: hand;
+}
+
+.filter-chip:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.filter-chip-active {
+    -fx-background-color: #E0ECFF;
+    -fx-border-color: #2563EB;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 18px;
+    -fx-text-fill: #2563EB;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+}
+
+.btn-new-entry {
+    -fx-background-color: #2563EB;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 0 22px;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-min-height: 44px;
+    -fx-cursor: hand;
+}
+
+.btn-new-entry:hover {
+    -fx-background-color: #1D4ED8;
+}
+
+.btn-advanced-filters {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2563EB;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.btn-advanced-filters:hover {
+    -fx-text-fill: #1D4ED8;
+}
+
+/* --- Personnel Table/Card Section --- */
+.table-container {
+    -fx-background-color: white;
+    -fx-background-radius: 16px;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+}
+
+.table-header-row {
+    -fx-background-color: #F9FAFB;
+    -fx-background-radius: 16px 16px 0 0;
+    -fx-min-height: 54px;
+    -fx-padding: 0 32px;
+}
+
+.table-header-text {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B7280;
+    -fx-font-family: 'Inter';
+}
+
+/* --- Personnel Row Design --- */
+.table-row {
+    -fx-min-height: 92px;
+    -fx-border-color: transparent transparent #F1F5F9 transparent;
+    -fx-border-width: 1px;
+    -fx-padding: 0 32px;
+    -fx-background-color: white;
+}
+
+.table-row:hover {
+    -fx-background-color: #F8FAFC;
+}
+
+.row-name {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.row-id {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B7280;
+    -fx-font-family: monospace;
+}
+
+.row-avatar {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);
+}
+
+/* --- Clearance Badges --- */
+.badge {
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 20px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-purple {
+    -fx-background-color: #EEE7FF;
+    -fx-text-fill: #7C3AED;
+}
+
+.badge-blue {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #2563EB;
+}
+
+.badge-gray {
+    -fx-background-color: #E5E7EB;
+    -fx-text-fill: #4B5563;
+}
+
+.badge-red {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #DC2626;
+}
+
+/* --- Last Access --- */
+.access-time {
+    -fx-font-size: 14px;
+    -fx-text-fill: #374151;
+    -fx-font-weight: 500;
+}
+
+.access-location {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B7280;
+}
+
+/* --- Status Indicators --- */
+.status-text-onsite {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #22C55E;
+}
+
+.status-text-offsite {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6B7280;
+}
+
+.status-text-flagged {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #DC2626;
+}
+
+/* --- Pagination --- */
+.page-btn {
+    -fx-background-color: white;
+    -fx-border-color: #D1D5DB;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #374151;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-cursor: hand;
+}
+
+.page-btn:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+.page-btn-active {
+    -fx-background-color: #2563EB;
+    -fx-border-color: #2563EB;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-cursor: hand;
+}
+
+.footer-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6B7280;
+}

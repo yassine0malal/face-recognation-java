@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+    alignment="CENTER_LEFT" prefHeight="120.0" spacing="24.0"
+    style="-fx-background-color: #FFFFFF; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; -fx-padding: 0 32px;">
+
+    <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS" maxWidth="520.0" maxHeight="10.0"
+        style="-fx-background-color: #F1F5F9; -fx-background-radius: 9999px; -fx-padding: 8px 16px; -fx-border-color: #E2E8F0; -fx-border-radius: 9999px;">
+        
+        <!-- Search SVG Icon -->
+        <SVGPath content="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" 
+                 fill="#64748B" scaleX="0.8" scaleY="0.8" />
+                 
+        <TextField promptText="Search by name, ID, or clearance..." HBox.hgrow="ALWAYS"
+            style="-fx-background-color: transparent; -fx-prompt-text-fill: #94A3B8; -fx-text-fill: #0F172A; -fx-padding: 0; -fx-font-family: 'Inter'; -fx-font-size: 14px;" />
+    </HBox>
+
+    <Region HBox.hgrow="ALWAYS" />
+
+    <HBox alignment="CENTER" spacing="20.0">
+        <!-- Shield SVG Icon -->
+        <SVGPath content="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" 
+                 fill="#64748B" style="-fx-cursor: hand;" />
+
+        <!-- Lock SVG Icon -->
+        <SVGPath content="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" 
+                 fill="#64748B" style="-fx-cursor: hand;" />
+
+        <!-- Bell SVG Icon with Red Dot Notification -->
+        <StackPane style="-fx-cursor: hand;">
+            <SVGPath content="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" 
+                     fill="#64748B" />
+            <StackPane alignment="TOP_RIGHT" translateX="4.0" translateY="-4.0">
+                <Circle radius="4.0" fill="#EF4444" />
+            </StackPane>
+        </StackPane>
+
+        <Region prefWidth="1.0" prefHeight="32.0" style="-fx-background-color: #E2E8F0;" />
+
+        <Label text="Security Command"
+            style="-fx-font-family: 'Inter'; -fx-font-weight: 700; -fx-font-size: 16px; -fx-text-fill: #0F172A;" />
+    </HBox>
+</HBox>

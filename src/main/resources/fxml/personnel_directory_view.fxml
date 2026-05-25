@@ -1,13 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
 <?import java.net.URL?>
 
-<VBox spacing="24" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.facialaccess.presentation.UserManagementController">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      spacing="0.0" style="-fx-background-color: #F5F6FC;" VBox.vgrow="ALWAYS">
     <stylesheets>
         <URL value="@../css/global.css" />
-        <URL value="@../css/dashboard.css" />
+        <URL value="@../css/personnel_directory.css" />
     </stylesheets>
-    
+
+    <!-- Shared Header -->
+    <fx:include source="header.fxml" />
+
+    <!-- Main Content Container -->
+    <VBox spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS">
+        
+        <!-- Top Title Section & Action Section -->
+        <HBox alignment="CENTER_LEFT">
+            <VBox spacing="4.0">
+                <Label text="Personnel Directory" styleClass="headline-lg" />
+                <Label text="Manage and audit authorized access across all secure facilities." styleClass="subtitle-text" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="NEW ENTRY" styleClass="btn-new-entry">
+                <graphic>
+                    <SVGPath content="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white" scaleX="0.8" scaleY="0.8" />
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Filter Chips Section -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0">
+            <Button text="All Personnel (1,248)" styleClass="filter-chip-active" />
+            <Button text="Clearance: Level 4+" styleClass="filter-chip" />
+            <Button text="Recently Active" styleClass="filter-chip" />
+            <Button text="Contractors" styleClass="filter-chip" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Advanced Filters" styleClass="btn-advanced-filters">
+                <graphic>
+                    <SVGPath content="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" fill="#2563EB" scaleX="0.8" scaleY="0.8" />
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Personnel Table Container -->
+        <VBox styleClass="table-container" VBox.vgrow="ALWAYS">
+            
+            <!-- Table Header -->
+            <HBox alignment="CENTER_LEFT" styleClass="table-header-row">
+                <Label text="PERSONNEL NAME &amp; ID" styleClass="table-header-text" prefWidth="250.0" />
+                <Label text="CLEARANCE LEVEL" styleClass="table-header-text" prefWidth="220.0" />
+                <Label text="LAST ACCESS" styleClass="table-header-text" prefWidth="220.0" />
+                <Label text="STATUS" styleClass="table-header-text" HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <!-- Table Rows (Mock Data) -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: white; -fx-padding: 0; -fx-border-color: transparent;">
+                <VBox>
+                    <!-- Row 1 -->
+                    <HBox alignment="CENTER_LEFT" styleClass="table-row">
+                        <HBox alignment="CENTER_LEFT" spacing="16.0" prefWidth="250.0">
+                            <!-- Placeholder Avatar -->
+                            <StackPane prefWidth="40" prefHeight="40" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8;">
+                                <Label text="MT" style="-fx-text-fill: #6B7280; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                <Label text="Marcus Thorne" styleClass="row-name" />
+                                <Label text="ID: VC-9942-01" styleClass="row-id" />
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="220.0">
+                            <Label text="LEVEL 5 • CRITICAL" styleClass="badge, badge-purple" />
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="220.0">
+                            <Label text="2 mins ago" styleClass="access-time" />
+                            <Label text="Vault A-13" styleClass="access-location" />
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Circle radius="4" fill="#22C55E" />
+                            <Label text="ON-SITE" styleClass="status-text-onsite" />
+                        </HBox>
+                    </HBox>
+
+                    <!-- Row 2 -->
+                    <HBox alignment="CENTER_LEFT" styleClass="table-row">
+                        <HBox alignment="CENTER_LEFT" spacing="16.0" prefWidth="250.0">
+                            <StackPane prefWidth="40" prefHeight="40" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8;">
+                                <Label text="ER" style="-fx-text-fill: #6B7280; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                <Label text="Elena Rodriguez" styleClass="row-name" />
+                                <Label text="ID: VC-8821-04" styleClass="row-id" />
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="220.0">
+                            <Label text="LEVEL 4 • SENIOR" styleClass="badge, badge-blue" />
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="220.0">
+                            <Label text="45 mins ago" styleClass="access-time" />
+                            <Label text="Research Wing B" styleClass="access-location" />
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Circle radius="4" fill="#22C55E" />
+                            <Label text="ON-SITE" styleClass="status-text-onsite" />
+                        </HBox>
+                    </HBox>
+
+                    <!-- Row 3 -->
+                    <HBox alignment="CENTER_LEFT" styleClass="table-row">
+                        <HBox alignment="CENTER_LEFT" spacing="16.0" prefWidth="250.0">
+                            <StackPane prefWidth="40" prefHeight="40" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8;">
+                                <Label text="SK" style="-fx-text-fill: #6B7280; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                <Label text="Dr. Simon Kael" styleClass="row-name" />
+                                <Label text="ID: VC-7710-15" styleClass="row-id" />
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="220.0">
+                            <Label text="LEVEL 5 • EXECUTIVE" styleClass="badge, badge-blue" />
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="220.0">
+                            <Label text="3 hours ago" styleClass="access-time" />
+                            <Label text="Data Center South" styleClass="access-location" />
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Circle radius="4" fill="#6B7280" />
+                            <Label text="OFF-SITE" styleClass="status-text-offsite" />
+                        </HBox>
+                    </HBox>
+                    
+                    <!-- Row 4 -->
+                    <HBox alignment="CENTER_LEFT" styleClass="table-row">
+                        <HBox alignment="CENTER_LEFT" spacing="16.0" prefWidth="250.0">
+                            <StackPane prefWidth="40" prefHeight="40" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8;">
+                                <Label text="SW" style="-fx-text-fill: #6B7280; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                <Label text="Sienna West" styleClass="row-name" />
+                                <Label text="ID: VC-4491-09" styleClass="row-id" />
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="220.0">
+                            <Label text="LEVEL 3 • STAFF" styleClass="badge, badge-gray" />
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="220.0">
+                            <Label text="Active Now" styleClass="access-time" />
+                            <Label text="Main Lobby" styleClass="access-location" />
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Circle radius="4" fill="#22C55E" />
+                            <Label text="ON-SITE" styleClass="status-text-onsite" />
+                        </HBox>
+                    </HBox>
+
+                    <!-- Row 5 -->
+                    <HBox alignment="CENTER_LEFT" styleClass="table-row" style="-fx-border-color: transparent;">
+                        <HBox alignment="CENTER_LEFT" spacing="16.0" prefWidth="250.0">
+                            <StackPane prefWidth="40" prefHeight="40" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8;">
+                                <Label text="JV" style="-fx-text-fill: #6B7280; -fx-font-weight: bold;"/>
+                            </StackPane>
+                            <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                <Label text="Julian Vance" styleClass="row-name" />
+                                <Label text="ID: VC-2105-88" styleClass="row-id" />
+                            </VBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefWidth="220.0">
+                            <Label text="SUSPENDED" styleClass="badge, badge-red" />
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0" prefWidth="220.0">
+                            <Label text="12 days ago" styleClass="access-time" />
+                            <Label text="Exit Gate 04" styleClass="access-location" />
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" HBox.hgrow="ALWAYS">
+                            <Circle radius="4" fill="#DC2626" />
+                            <Label text="FLAGGED" styleClass="status-text-flagged" />
+                        </HBox>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+
+            <!-- Pagination and Footer -->
+            <HBox alignment="CENTER_LEFT" style="-fx-padding: 16px 32px; -fx-border-color: #E5E7EB transparent transparent transparent; -fx-border-width: 1px;">
+                <Label text="Showing 5 of 1,248 personnel entries" styleClass="footer-text" />
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox spacing="8.0" alignment="CENTER">
+                    <Button text="&lt;" styleClass="page-btn" />
+                    <Button text="1" styleClass="page-btn-active" />
+                    <Button text="2" styleClass="page-btn" />
+                    <Button text="3" styleClass="page-btn" />
+                    <Button text="&gt;" styleClass="page-btn" />
+                </HBox>
+            </HBox>
+        </VBox>
     </VBox>
+</VBox>
