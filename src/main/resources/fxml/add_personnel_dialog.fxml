@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.facialaccess.presentation.AddPersonnelController"
+    spacing="24.0" style="-fx-background-color: #FFFFFF; -fx-padding: 32px; -fx-background-radius: 12px; -fx-border-radius: 12px;"
+    prefWidth="480.0" prefHeight="520.0">
+
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/personnel_directory.css" />
+    </stylesheets>
+
+    <!-- Header -->
+    <VBox spacing="4.0">
+        <Label text="New Personnel Entry" styleClass="headline-lg" />
+        <Label text="Enter the details to register a new user in the system." styleClass="subtitle-text" />
+    </VBox>
+
+    <!-- Form Fields -->
+    <VBox spacing="16.0">
+        
+        <VBox spacing="8.0">
+            <Label text="FULL NAME" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+            <TextField fx:id="nameField" promptText="e.g. John Doe" 
+                style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px; -fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A;" />
+        </VBox>
+
+        <VBox spacing="8.0">
+            <Label text="EMAIL ADDRESS" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+            <TextField fx:id="emailField" promptText="e.g. john.doe@company.com" 
+                style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px; -fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A;" />
+        </VBox>
+
+        <VBox spacing="8.0">
+            <Label text="CLEARANCE LEVEL (ROLE)" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+            <ComboBox fx:id="roleComboBox" promptText="Select Clearance Level" maxWidth="Infinity"
+                style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 4px; -fx-font-family: 'Inter'; -fx-font-size: 14px;" />
+        </VBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="12.0" style="-fx-padding: 8px 0;">
+            <CheckBox fx:id="activeCheckBox" selected="true" />
+            <VBox>
+                <Label text="Active Account" style="-fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A; -fx-font-weight: bold;" />
+                <Label text="User will have immediate access based on clearance." style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B;" />
+            </VBox>
+        </HBox>
+        
+        <Label fx:id="errorLabel" textFill="#DC2626" style="-fx-font-family: 'Inter'; -fx-font-size: 13px;" visible="false" />
+
+    </VBox>
+
+    <!-- Actions -->
+    <HBox spacing="16.0" alignment="CENTER_RIGHT" style="-fx-padding: 16px 0 0 0;">
+        <Button text="Cancel" onAction="#handleCancel"
+            style="-fx-background-color: transparent; -fx-text-fill: #64748B; -fx-font-family: 'Inter'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 24px; -fx-cursor: hand;" />
+        <Button text="SAVE ENTRY" onAction="#handleSave" styleClass="btn-new-entry" />
+    </HBox>
+
+</VBox>
