@@ -22,15 +22,24 @@ import static org.bytedeco.opencv.global.opencv_imgcodecs.IMREAD_COLOR;
 
 public class EditPersonnelController {
 
-    @FXML private TextField nameField;
-    @FXML private TextField emailField;
-    @FXML private ComboBox<String> roleComboBox;
-    @FXML private CheckBox activeCheckBox;
-    @FXML private Label errorLabel;
-    @FXML private StackPane imagePreview;
-    @FXML private Label imagePlaceholder;
-    @FXML private ImageView selectedImageView;
-    @FXML private Button removeImageBtn;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private ComboBox<String> roleComboBox;
+    @FXML
+    private CheckBox activeCheckBox;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private StackPane imagePreview;
+    @FXML
+    private Label imagePlaceholder;
+    @FXML
+    private ImageView selectedImageView;
+    @FXML
+    private Button removeImageBtn;
 
     private PersonnelDirectoryController parentController;
     private File selectedImageFile;
@@ -45,7 +54,7 @@ public class EditPersonnelController {
     public void initialize() {
         utilisateurDAO = new UtilisateurDAO();
         featureExtractor = new FeatureExtractor();
-        roleComboBox.setItems(FXCollections.observableArrayList("admin", "employe"));
+        roleComboBox.setItems(FXCollections.observableArrayList("stagiaire", "securite", "employe"));
     }
 
     public void setParentController(PersonnelDirectoryController parentController) {
@@ -91,8 +100,7 @@ public class EditPersonnelController {
         fileChooser.setTitle("Select User Image");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
 
         File file = fileChooser.showOpenDialog(nameField.getScene().getWindow());
         if (file != null) {
@@ -163,7 +171,8 @@ public class EditPersonnelController {
                     showError("Failed to read image file: " + e.getMessage());
                     return;
                 } finally {
-                    if (faceImage != null) faceImage.release();
+                    if (faceImage != null)
+                        faceImage.release();
                 }
             } else {
                 // image explicitly removed

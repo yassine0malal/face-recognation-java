@@ -43,7 +43,7 @@ public class AddPersonnelController {
     public void initialize() {
         utilisateurDAO = new UtilisateurDAO();
         featureExtractor = new FeatureExtractor();
-        roleComboBox.setItems(FXCollections.observableArrayList("admin", "employe"));
+        roleComboBox.setItems(FXCollections.observableArrayList("stagiaire","securite", "employe"));
     }
 
     public void setParentController(PersonnelDirectoryController parentController) {
