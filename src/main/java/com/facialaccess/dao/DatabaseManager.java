@@ -1,153 +1,153 @@
 package com.facialaccess.dao;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.stream.Collectors;
 
 /**
- * Gestionnaire de connexion à la base de données SQLite.
- * Initialise le schéma et fournit les connexions.
+ * Gestionnaire central de la base de données SQLite.
+ * Initialise les tables en respectant l'ordre d'héritage : PERSONNE -> UTILISATEUR / ADMIN.
  */
 public class DatabaseManager {
-    
-    private static final String DB_URL = "jdbc:sqlite:facial_access.db";
+
     private static DatabaseManager instance;
     private Connection connection;
-    
+    private static final String DB_URL = "jdbc:sqlite:facial_access.db";
+
     private DatabaseManager() {
-        try {
-            // Charger le driver SQLite
-            Class.forName("org.sqlite.JDBC");
-            // Créer la connexion
-            connection = DriverManager.getConnection(DB_URL);
-            // Initialiser le schéma
-            initializeSchema();
-            System.out.println("✓ Connexion à la base de données établie");
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("✗ Erreur lors de la connexion à la base de données: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // L'initialisation se fait désormais via getConnection() pour garantir une connexion fraîche
+        getConnection();
+        initializeSchema();
     }
-    
-    /**
-     * Récupère l'instance unique du DatabaseManager (Singleton).
-     */
+
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
         }
         return instance;
     }
-    
+
     /**
-     * Retourne la connexion active.
+     * LE FIX EST ICI : Vérifie l'état de la connexion.
+     * Si elle est fermée (par un try-with-resources du DAO), on la recrée.
      */
-    public Connection getConnection() {
+    public synchronized Connection getConnection() {
         try {
-            // Vérifier si la connexion est toujours valide
             if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(DB_URL);
+                
+                // Réactiver les clés étrangères à chaque nouvelle connexion
+                try (Statement stmt = connection.createStatement()) {
+                    stmt.execute("PRAGMA foreign_keys = ON;");
+                }
             }
         } catch (SQLException e) {
-            System.err.println("✗ Erreur lors de la récupération de la connexion: " + e.getMessage());
+            System.err.println("Erreur lors du rétablissement de la connexion : " + e.getMessage());
         }
         return connection;
     }
-    
+
     /**
-     * Initialise le schéma de la base de données depuis schema.sql.
+     * Crée les tables dans l'ordre de dépendance hiérarchique.
      */
     private void initializeSchema() {
-        try {
-            // Vérifier si les tables existent déjà
-            if (tablesExist()) {
-                System.out.println("✓ Tables déjà existantes, schéma non réinitialisé");
-                return;
-            }
+        // Demander une connexion valide pour l'initialisation
+        Connection conn = getConnection(); 
+        if (conn == null) return;
+
+        try (Statement stmt = conn.createStatement()) {
             
-            InputStream is = getClass().getResourceAsStream("/db/schema.sql");
-            if (is == null) {
-                System.err.println("✗ Fichier schema.sql introuvable dans /db/");
-                return;
-            }
+            // ÉTAPE 1 : Table Mère (PERSONNE)
+            stmt.execute("CREATE TABLE IF NOT EXISTS PERSONNE (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "full_name TEXT NOT NULL, " +
+                    "email TEXT UNIQUE, " +
+                    "created_at DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                    "is_active INTEGER DEFAULT 1, " +
+                    "type TEXT NOT NULL CHECK(type IN ('ADMIN', 'UTILISATEUR'))" +
+                    ");");
+            System.out.println("✓ Étape 1 : Table mère PERSONNE initialisée.");
+
+            // ÉTAPE 2 : Table Fille 1 (UTILISATEUR)
+            stmt.execute("CREATE TABLE IF NOT EXISTS UTILISATEUR (" +
+                    "id INTEGER PRIMARY KEY, " +
+                    "role TEXT DEFAULT 'user', " +
+                    "face_image BLOB, " +
+                    "face_vector BLOB, " +
+                    "qr_code_data TEXT, " +
+                    "FOREIGN KEY (id) REFERENCES PERSONNE(id) ON DELETE CASCADE" +
+                    ");");
+            System.out.println("✓ Étape 2 : Table fille UTILISATEUR initialisée.");
+
+            // ÉTAPE 3 : Table Fille 2 (ADMIN)
+            stmt.execute("CREATE TABLE IF NOT EXISTS ADMIN (" +
+                    "id INTEGER PRIMARY KEY, " +
+                    "username TEXT NOT NULL UNIQUE, " +
+                    "password_hash TEXT NOT NULL, " +
+                    "failed_attempts INTEGER DEFAULT 0, " +
+                    "locked_until DATETIME, " +
+                    "FOREIGN KEY (id) REFERENCES PERSONNE(id) ON DELETE CASCADE" +
+                    ");");
+            System.out.println("✓ Étape 3 : Table fille ADMIN initialisée.");
+
+            // ÉTAPE 4 : Table dépendante des logs (ACCESS_LOGS)
+            stmt.execute("CREATE TABLE IF NOT EXISTS ACCESS_LOGS (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER, " +
+                    "status TEXT NOT NULL CHECK(status IN ('GRANTED', 'DENIED')), " +
+                    "confidence_score REAL, " +
+                    "identification_method TEXT CHECK(identification_method IN ('FACE', 'QR')), " +
+                    "accessed_at DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                    "FOREIGN KEY (user_id) REFERENCES UTILISATEUR(id) ON DELETE CASCADE" +
+                    ");");
+            System.out.println("✓ Étape 4 : Table ACCESS_LOGS initialisée.");
+
+            // ÉTAPE 5 : Création des index de performance
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_personne_email ON PERSONNE(email);");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_personne_type ON PERSONNE(type);");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_admin_username ON ADMIN(username);");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_utilisateur_id ON UTILISATEUR(id);");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_access_logs_user_id ON ACCESS_LOGS(user_id);");
+            System.out.println("✓ Étape 5 : Index de performance configurés.");
+
+            // ÉTAPE 6 : Insertion sécurisée du compte Admin par défaut
+            conn.setAutoCommit(false);
             
-            // Lire le contenu du fichier SQL ligne par ligne
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder currentCommand = new StringBuilder();
-            String line;
-            int executed = 0;
+            stmt.execute("INSERT OR IGNORE INTO PERSONNE (id, full_name, email, type, is_active) " +
+                    "VALUES (1, 'Administrateur', 'admin@facialaccess.com', 'ADMIN', 1);");
             
-            Statement stmt = connection.createStatement();
+            stmt.execute("INSERT OR IGNORE INTO ADMIN (id, username, password_hash, failed_attempts, locked_until) " +
+                    "VALUES (1, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 0, NULL);");
             
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                
-                // Ignorer les lignes vides et les commentaires
-                if (line.isEmpty() || line.startsWith("--")) {
-                    continue;
-                }
-                
-                // Ajouter la ligne à la commande courante
-                currentCommand.append(line).append(" ");
-                
-                // Si la ligne se termine par un point-virgule, exécuter la commande
-                if (line.endsWith(";")) {
-                    String command = currentCommand.toString().trim();
-                    // Retirer le point-virgule final
-                    command = command.substring(0, command.length() - 1);
-                    
-                    try {
-                        stmt.execute(command);
-                        executed++;
-                        System.out.println("✓ Exécuté: " + command.substring(0, Math.min(60, command.length())) + "...");
-                    } catch (SQLException e) {
-                        System.err.println("✗ Erreur SQL: " + e.getMessage());
-                        System.err.println("   Commande: " + command.substring(0, Math.min(100, command.length())));
-                    }
-                    
-                    // Réinitialiser pour la prochaine commande
-                    currentCommand = new StringBuilder();
-                }
-            }
-            
-            reader.close();
-            stmt.close();
-            System.out.println("✓ Schema de base de donnees initialisé (" + executed + " commandes executees)");
-            
-        } catch (Exception e) {
-            System.err.println("✗ Erreur lors de l'initialisation du schéma: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Vérifie si les tables existent déjà.
-     */
-    private boolean tablesExist() {
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeQuery("SELECT 1 FROM PERSONNE LIMIT 1");
-            return true;
+            conn.commit();
+            conn.setAutoCommit(true);
+            System.out.println("✓ Étape 6 : Compte administrateur initial par défaut injecté avec succès.");
+
         } catch (SQLException e) {
-            return false;
+            System.err.println("Erreur lors de la construction ordonnée du schéma : " + e.getMessage());
+            try {
+                if (conn != null && !conn.isClosed() && !conn.getAutoCommit()) {
+                    conn.rollback();
+                    conn.setAutoCommit(true);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
-    
+
     /**
-     * Ferme la connexion à la base de données.
+     * Ferme proprement la connexion globale (généralement appelé à l'arrêt de l'application).
      */
     public void close() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
-                System.out.println("✓ Connexion a la base de donnees fermee");
+                System.out.println("✓ Connexion à la base de données fermée proprement.");
             }
         } catch (SQLException e) {
-            System.err.println("✗ Erreur lors de la fermeture de la connexion: " + e.getMessage());
+            System.err.println("Erreur lors de la fermeture de la base de données : " + e.getMessage());
         }
     }
 }

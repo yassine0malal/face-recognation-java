@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox fx:id="editEntryFormView" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.facialaccess.presentation.EditPersonnelController"
+    spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS" visible="false" managed="false">
+
+    <!-- Back Button & Title -->
+    <VBox spacing="16.0">
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <Button text="←" onAction="#handleCancel" style="-fx-font-size: 20px; -fx-padding: 8px 12px; -fx-background-color: #E5E7EB; -fx-background-radius: 8px; -fx-cursor: hand;" />
+            <VBox spacing="4.0">
+                <Label text="Edit Personnel Entry" styleClass="headline-lg" />
+                <Label text="Update the user's information and permissions." styleClass="subtitle-text" />
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Form Container -->
+    <VBox spacing="24.0" style="-fx-padding: 0;">
+        <VBox spacing="20.0">
+            <!-- Row 1: Name & Email -->
+            <HBox spacing="24.0">
+                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                    <Label text="FULL NAME" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+                    <TextField fx:id="nameField" promptText="e.g. John Doe" 
+                        style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px; -fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A;" />
+                </VBox>
+
+                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                    <Label text="EMAIL ADDRESS" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+                    <TextField fx:id="emailField" promptText="e.g. john.doe@company.com" 
+                        style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px; -fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A;" />
+                </VBox>
+            </HBox>
+
+            <!-- Row 2: User Type & Active Status -->
+            <HBox spacing="24.0">
+                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                    <Label text="USER TYPE" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+                    <ComboBox fx:id="roleComboBox" promptText="Select User Type" maxWidth="Infinity"
+                        style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 4px; -fx-font-family: 'Inter'; -fx-font-size: 14px;" />
+                </VBox>
+
+                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                    <Label text="STATUS" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+                    <HBox alignment="CENTER_LEFT" spacing="12.0" style="-fx-padding: 10px 14px; -fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-radius: 8px; -fx-background-radius: 8px;">
+                        <CheckBox fx:id="activeCheckBox" selected="true" />
+                        <Label text="Active Account" style="-fx-font-family: 'Inter'; -fx-font-size: 14px; -fx-text-fill: #0F172A;" />
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- Row 3: Image Selection -->
+            <VBox spacing="8.0">
+                <Label text="SELECT USER IMAGE" style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B; -fx-font-weight: bold;" />
+                <HBox spacing="16.0" alignment="CENTER_LEFT">
+                    <StackPane fx:id="imagePreview" style="-fx-background-color: #E5E7EB; -fx-background-radius: 8px; -fx-border-color: #D1D5DB; -fx-border-radius: 8px;" prefWidth="120" prefHeight="120">
+                        <Label fx:id="imagePlaceholder" text="No Image Selected" style="-fx-text-fill: #94A3B8; -fx-font-size: 12px;" />
+                        <ImageView fx:id="selectedImageView" fitWidth="120" fitHeight="120" pickOnBounds="true" preserveRatio="false" style="-fx-background-radius: 8px;" />
+                    </StackPane>
+                    <VBox spacing="12.0" HBox.hgrow="ALWAYS">
+                        <Button text="BROWSE IMAGE" onAction="#handleBrowseImage" style="-fx-background-color: #2563EB; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 8px; -fx-font-family: 'Inter'; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;" />
+                        <Button fx:id="removeImageBtn" text="REMOVE IMAGE" onAction="#handleRemoveImage" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-background-radius: 8px; -fx-font-family: 'Inter'; -fx-font-weight: bold; -fx-font-size: 12px; -fx-cursor: hand;" visible="false" managed="false" />
+                        <Label style="-fx-font-family: 'Inter'; -fx-font-size: 12px; -fx-text-fill: #64748B;" text="Supported formats: JPG, PNG, GIF" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Error Label -->
+            <Label fx:id="errorLabel" textFill="#DC2626" style="-fx-font-family: 'Inter'; -fx-font-size: 13px;" visible="false" />
+        </VBox>
+
+        <!-- Action Buttons -->
+        <HBox spacing="16.0" alignment="CENTER_RIGHT" style="-fx-padding: 16px 0 0 0;">
+            <Button text="CANCEL" onAction="#handleCancel"
+                style="-fx-background-color: transparent; -fx-text-fill: #64748B; -fx-font-family: 'Inter'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 24px; -fx-cursor: hand;" />
+            <Button text="UPDATE ENTRY" onAction="#handleUpdateEntry" styleClass="btn-new-entry" />
+        </HBox>
+    </VBox>
+</VBox>

@@ -13,8 +13,15 @@
         <URL value="@../css/global.css" />
         <URL value="@../css/personnel_directory.css" />
     </stylesheets>
-    <!-- Main Content Container -->
-    <VBox spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS">
+
+    <!-- Add Personnel Form View (inline, initially hidden) -->
+    <fx:include source="add_personnel_view.fxml" fx:id="addEntryForm" />
+
+    <!-- Edit Personnel Form View (inline, initially hidden) -->
+    <fx:include source="edit_personnel_view.fxml" fx:id="editEntryForm" />
+
+    <!-- Main Content Container (table listing) -->
+    <VBox fx:id="mainTableView" spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS">
 
         <!-- Top Title Section & Action Section -->
         <HBox alignment="CENTER_LEFT">
@@ -35,11 +42,15 @@
 
         <!-- Filter Chips Section -->
         <HBox alignment="CENTER_LEFT" spacing="16.0">
-            <Button text="All Personnel" styleClass="filter-chip-active" />
-            <Button text="Clearance: Level 4+" styleClass="filter-chip" />
-            <Button text="Recently Active" styleClass="filter-chip" />
-            <Button text="Contractors" styleClass="filter-chip" />
+            <Button fx:id="filterAll" text="All Personnel" styleClass="filter-chip-active"
+                onAction="#handleFilterChange" />
+            <Button fx:id="filterAdmins" text="Admins" styleClass="filter-chip"
+                onAction="#handleFilterChange" />
+            <Button fx:id="filterUsers" text="Utilisateurs" styleClass="filter-chip"
+                onAction="#handleFilterChange" />
+
             <Region HBox.hgrow="ALWAYS" />
+
             <Button text="Advanced Filters" styleClass="btn-advanced-filters">
                 <graphic>
                     <SVGPath
@@ -72,14 +83,28 @@
             <!-- Pagination and Footer -->
             <HBox alignment="CENTER_LEFT"
                 style="-fx-padding: 16px 32px; -fx-border-color: #E5E7EB transparent transparent transparent; -fx-border-width: 1px;">
-                <Label text="Showing 5 of 1,248 personnel entries" styleClass="footer-text" />
+
+                <Label fx:id="footerPaginationLabel" text="Showing 0 of 0 personnel entries"
+                    styleClass="footer-text" />
+
                 <Region HBox.hgrow="ALWAYS" />
-                <HBox spacing="8.0" alignment="CENTER">
-                    <Button text="&lt;" styleClass="page-btn" />
-                    <Button text="1" styleClass="page-btn-active" />
-                    <Button text="2" styleClass="page-btn" />
-                    <Button text="3" styleClass="page-btn" />
-                    <Button text="&gt;" styleClass="page-btn" />
+
+                <HBox fx:id="paginationContainer" spacing="8.0" alignment="CENTER">
+
+                    <Button fx:id="btnPrevPage" styleClass="page-btn" onAction="#handlePrevPage">
+                        <graphic>
+                            <SVGPath content="M15 18l-6-6 6-6" fill="transparent" stroke="#374151"
+                                strokeWidth="2" />
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnNextPage" styleClass="page-btn" onAction="#handleNextPage">
+                        <graphic>
+                            <SVGPath content="M9 18l6-6-6-6" fill="transparent" stroke="#374151"
+                                strokeWidth="2" />
+                        </graphic>
+                    </Button>
+
                 </HBox>
             </HBox>
         </VBox>

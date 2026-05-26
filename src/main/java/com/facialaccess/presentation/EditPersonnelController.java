@@ -12,9 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 
@@ -22,7 +20,7 @@ import org.bytedeco.opencv.opencv_core.Mat;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.IMREAD_COLOR;
 
-public class AddPersonnelController {
+public class EditPersonnelController {
 
     @FXML private TextField nameField;
     @FXML private TextField emailField;
@@ -39,6 +37,10 @@ public class AddPersonnelController {
     private UtilisateurDAO utilisateurDAO;
     private FeatureExtractor featureExtractor;
 
+    private Utilisateur currentUser;
+    private byte[] originalImageData;
+    private boolean imageChanged = false;
+
     @FXML
     public void initialize() {
         utilisateurDAO = new UtilisateurDAO();
@@ -48,6 +50,39 @@ public class AddPersonnelController {
 
     public void setParentController(PersonnelDirectoryController parentController) {
         this.parentController = parentController;
+    }
+
+    /**
+     * Pre-fill the form with an existing user's data.
+     * Must be called before showing the form.
+     */
+    public void loadUserData(Utilisateur user) {
+        this.currentUser = user;
+        nameField.setText(user.getFullName());
+        emailField.setText(user.getEmail());
+        roleComboBox.setValue(user.getRole() != null ? user.getRole() : "employe");
+        activeCheckBox.setSelected(user.isActive());
+
+        if (user.hasFaceImage()) {
+            originalImageData = user.getFaceImage();
+            try {
+                Image img = new Image(new ByteArrayInputStream(originalImageData));
+                selectedImageView.setImage(img);
+                imagePlaceholder.setVisible(false);
+                removeImageBtn.setVisible(true);
+                removeImageBtn.setManaged(true);
+            } catch (Exception e) {
+                showError("Failed to load existing image.");
+            }
+        } else {
+            originalImageData = null;
+            imagePlaceholder.setVisible(true);
+            selectedImageView.setImage(null);
+            removeImageBtn.setVisible(false);
+            removeImageBtn.setManaged(false);
+        }
+
+        imageChanged = false;
     }
 
     @FXML
@@ -62,6 +97,7 @@ public class AddPersonnelController {
         File file = fileChooser.showOpenDialog(nameField.getScene().getWindow());
         if (file != null) {
             selectedImageFile = file;
+            imageChanged = true;
             try (FileInputStream inputStream = new FileInputStream(file)) {
                 Image image = new Image(inputStream);
                 selectedImageView.setImage(image);
@@ -81,10 +117,11 @@ public class AddPersonnelController {
         imagePlaceholder.setVisible(true);
         removeImageBtn.setVisible(false);
         removeImageBtn.setManaged(false);
+        imageChanged = true;
     }
 
     @FXML
-    public void handleSaveEntry(ActionEvent event) {
+    public void handleUpdateEntry(ActionEvent event) {
         String name = nameField.getText();
         String email = emailField.getText();
         String role = roleComboBox.getValue();
@@ -107,54 +144,55 @@ public class AddPersonnelController {
         byte[] faceVector = null;
         Mat faceImage = null;
 
-        if (selectedImageFile != null && selectedImageFile.exists()) {
-            try {
-                // 1. Save the raw image bytes for the UI
-                imageData = Files.readAllBytes(selectedImageFile.toPath());
-                
-                // 2. Read image using OpenCV to generate the vector
-                faceImage = imread(selectedImageFile.getAbsolutePath(), IMREAD_COLOR);
-                
-                if (faceImage != null && !faceImage.empty()) {
-                    // Extract feature vector using FeatureExtractor
-                    faceVector = featureExtractor.extractFeatures(faceImage);
-                    
-                    if (faceVector == null) {
-                        showError("Could not extract facial features. Please select a clearer photo.");
+        if (imageChanged) {
+            if (selectedImageFile != null && selectedImageFile.exists()) {
+                try {
+                    imageData = Files.readAllBytes(selectedImageFile.toPath());
+                    faceImage = imread(selectedImageFile.getAbsolutePath(), IMREAD_COLOR);
+                    if (faceImage != null && !faceImage.empty()) {
+                        faceVector = featureExtractor.extractFeatures(faceImage);
+                        if (faceVector == null) {
+                            showError("Could not extract facial features. Please select a clearer photo.");
+                            return;
+                        }
+                    } else {
+                        showError("OpenCV could not read the image file.");
                         return;
                     }
-                    System.out.println("✓ Feature vector extracted: " + faceVector.length + " bytes");
-                } else {
-                    showError("OpenCV could not read the image file.");
+                } catch (IOException e) {
+                    showError("Failed to read image file: " + e.getMessage());
                     return;
+                } finally {
+                    if (faceImage != null) faceImage.release();
                 }
-            } catch (IOException e) {
-                showError("Failed to read image file: " + e.getMessage());
-                return;
-            } finally {
-                // CRITICAL: Always release OpenCV Mat objects to prevent C++ memory leaks!
-                if (faceImage != null) {
-                    faceImage.release();
-                }
+            } else {
+                // image explicitly removed
+                imageData = null;
+                faceVector = null;
             }
+        } else {
+            // no change, keep original
+            imageData = originalImageData;
+            faceVector = currentUser.getFaceVector();
         }
 
-        String qrCode = ""; // Generate QR later if needed
+        currentUser.setFullName(name);
+        currentUser.setEmail(email);
+        currentUser.setRole(role);
+        currentUser.setActive(isActive);
+        currentUser.setFaceImage(imageData);
+        currentUser.setFaceVector(faceVector);
+        // qr_code_data left untouched
 
-        Utilisateur newUser = new Utilisateur(
-                null, name, email, LocalDateTime.now(), isActive, role, imageData, faceVector, qrCode
-        );
-
-        boolean success = utilisateurDAO.addUtilisateur(newUser);
-        
+        boolean success = utilisateurDAO.updateUtilisateur(currentUser);
         if (success) {
             clearForm();
             if (parentController != null) {
-                parentController.hideAddEntryForm();
+                parentController.hideEditEntryForm();
                 parentController.loadData();
             }
         } else {
-            showError("Failed to save to database. Email might already exist.");
+            showError("Failed to update user. Email might already exist.");
         }
     }
 
@@ -163,15 +201,22 @@ public class AddPersonnelController {
         emailField.clear();
         roleComboBox.setValue(null);
         activeCheckBox.setSelected(true);
-        handleRemoveImage(null);
+        selectedImageFile = null;
+        selectedImageView.setImage(null);
+        imagePlaceholder.setVisible(true);
+        removeImageBtn.setVisible(false);
+        removeImageBtn.setManaged(false);
         errorLabel.setVisible(false);
+        imageChanged = false;
+        originalImageData = null;
+        currentUser = null;
     }
 
     @FXML
     private void handleCancel(ActionEvent event) {
         clearForm();
         if (parentController != null) {
-            parentController.hideAddEntryForm();
+            parentController.hideEditEntryForm();
         }
     }
 

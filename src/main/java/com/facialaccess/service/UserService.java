@@ -214,7 +214,7 @@ public class UserService {
      * Compte le nombre total d'utilisateurs.
      */
     public int countUsers() {
-        return utilisateurDAO.countUtilisateurs();
+        return utilisateurDAO.getTotalUtilisateursCount();
     }
     
     /**

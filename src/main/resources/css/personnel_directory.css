@@ -212,3 +212,24 @@
     -fx-font-size: 13px;
     -fx-text-fill: #6B7280;
 }
+
+.page-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+    -fx-padding: 5 10;
+}
+
+.page-btn:hover {
+    -fx-background-color: #F3F4F6;
+}
+
+/* Assure que l'icône SVG suit la couleur du texte */
+.page-btn .svg-path {
+    -fx-stroke: #374151; 
+}
+
+.page-btn:disabled .svg-path {
+    -fx-stroke: #9CA3AF;
+}
