@@ -5,10 +5,6 @@ import com.facialaccess.util.NavigationUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
- * Point d'entrée principal de l'application Facial Access System.
- * Lance l'interface JavaFX.
- */
 public class App extends Application {
 
     @Override
@@ -25,8 +21,13 @@ public class App extends Application {
     
     @Override
     public void stop() {
-        // Fermer la connexion à la base de données
-        DatabaseManager.getInstance().close();
+        try {
+            if (DatabaseManager.getInstance() != null) {
+                DatabaseManager.getInstance().close();
+            }
+        } catch (Exception e) {
+            System.err.println("Error gracefully disconnecting database architecture: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

@@ -135,6 +135,7 @@ public class LoginController {
             Stage stage = (Stage) loginButton.getScene().getWindow();
             NavigationUtil.navigateToDashboard(stage);
         } catch (Exception e) {
+            e.printStackTrace();
             showError("Failed to load dashboard: " + e.getMessage());
             loginButton.setDisable(false);
             loginButton.setText("Initialize Session");

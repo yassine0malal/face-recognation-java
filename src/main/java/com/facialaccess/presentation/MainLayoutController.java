@@ -10,21 +10,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.io.IOException;
 
-public class DashboardController {
+public class MainLayoutController {
 
     @FXML
     private StackPane mainContentArea;
 
     @FXML
     public void initialize() {
-        // Loads ONLY the landing panel view frame once on app initialization
-        navigateTo("/fxml/dashboard_view.fxml");
+        // Loads the default initial view into the center area
+        navigateTo("/fxml/dashboard.fxml");
     }
 
     @FXML
     private void handleShowDashboardView(ActionEvent event) {
         updateActiveNavigationState(event);
-        navigateTo("/fxml/dashboard_view.fxml");
+        navigateTo("/fxml/dashboard.fxml");
     }
 
     @FXML
@@ -68,10 +68,18 @@ public class DashboardController {
                         if (!node.getStyleClass().contains("sidebar-button")) {
                             node.getStyleClass().add("sidebar-button");
                         }
+                        // Reset icon to gray
+                        if (((Button) node).getGraphic() instanceof javafx.scene.shape.SVGPath svg) {
+                            svg.setFill(javafx.scene.paint.Color.web("#6B7084"));
+                        }
                     }
                 }
                 clickedButton.getStyleClass().remove("sidebar-button");
                 clickedButton.getStyleClass().add("sidebar-button-active");
+                // Set active icon to white
+                if (clickedButton.getGraphic() instanceof javafx.scene.shape.SVGPath svg) {
+                    svg.setFill(javafx.scene.paint.Color.WHITE);
+                }
             }
         }
     }

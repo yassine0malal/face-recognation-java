@@ -25,7 +25,7 @@ public class NavigationUtil {
     }
 
     public static void navigateToDashboard(Stage stage) throws IOException {
-        load(stage, "/fxml/dashboard.fxml", "Sentinel Precision - Dashboard", 1280, 800, true);
+        load(stage, "/fxml/layouts/main_layout.fxml", "VigilantCore - Admin Control Center", 1440, 900, true);
     }
 
     public static void navigateToUserManagement(Stage stage) throws IOException {
@@ -37,7 +37,7 @@ public class NavigationUtil {
     }
 
     private static void load(Stage stage, String fxml, String title,
-                              double width, double height, boolean resizable) throws IOException {
+            double width, double height, boolean resizable) throws IOException {
         FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(fxml));
         Parent root = loader.load();
 

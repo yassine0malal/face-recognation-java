@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.facialaccess.presentation.PersonnelDirectoryController"
+    spacing="0.0" style="-fx-background-color: #F5F6FC;" VBox.vgrow="ALWAYS">
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/personnel_directory.css" />
+    </stylesheets>
+    <!-- Main Content Container -->
+    <VBox spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS">
+
+        <!-- Top Title Section & Action Section -->
+        <HBox alignment="CENTER_LEFT">
+            <VBox spacing="4.0">
+                <Label text="Personnel Directory" styleClass="headline-lg" />
+                <Label text="Manage and audit authorized access across all secure facilities."
+                    styleClass="subtitle-text" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="NEW ENTRY" styleClass="btn-new-entry" onAction="#handleAddEntry">
+                <graphic>
+                    <SVGPath
+                        content="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                        fill="white" scaleX="0.8" scaleY="0.8" />
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Filter Chips Section -->
+        <HBox alignment="CENTER_LEFT" spacing="16.0">
+            <Button text="All Personnel" styleClass="filter-chip-active" />
+            <Button text="Clearance: Level 4+" styleClass="filter-chip" />
+            <Button text="Recently Active" styleClass="filter-chip" />
+            <Button text="Contractors" styleClass="filter-chip" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Advanced Filters" styleClass="btn-advanced-filters">
+                <graphic>
+                    <SVGPath
+                        content="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"
+                        fill="#2563EB" scaleX="0.8" scaleY="0.8" />
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Personnel Table Container -->
+        <VBox styleClass="table-container" VBox.vgrow="ALWAYS">
+
+            <!-- Table Header -->
+            <HBox alignment="CENTER_LEFT" styleClass="table-header-row">
+                <Label text="PERSONNEL NAME &amp; ID" styleClass="table-header-text"
+                    prefWidth="250.0" />
+                <Label text="CLEARANCE LEVEL" styleClass="table-header-text" prefWidth="220.0" />
+                <Label text="LAST ACCESS" styleClass="table-header-text" prefWidth="220.0" />
+                <Label text="STATUS" styleClass="table-header-text" HBox.hgrow="ALWAYS" />
+            </HBox>
+
+            <!-- Table Rows (Dynamic Data) -->
+            <ScrollPane fitToWidth="true"
+                style="-fx-background-color: transparent; -fx-background: white; -fx-padding: 0; -fx-border-color: transparent;">
+                <VBox fx:id="tableRowsContainer">
+                    <!-- Rows will be injected here by the controller -->
+                </VBox>
+            </ScrollPane>
+
+            <!-- Pagination and Footer -->
+            <HBox alignment="CENTER_LEFT"
+                style="-fx-padding: 16px 32px; -fx-border-color: #E5E7EB transparent transparent transparent; -fx-border-width: 1px;">
+                <Label text="Showing 5 of 1,248 personnel entries" styleClass="footer-text" />
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox spacing="8.0" alignment="CENTER">
+                    <Button text="&lt;" styleClass="page-btn" />
+                    <Button text="1" styleClass="page-btn-active" />
+                    <Button text="2" styleClass="page-btn" />
+                    <Button text="3" styleClass="page-btn" />
+                    <Button text="&gt;" styleClass="page-btn" />
+                </HBox>
+            </HBox>
+        </VBox>
+    </VBox>
+</VBox>
