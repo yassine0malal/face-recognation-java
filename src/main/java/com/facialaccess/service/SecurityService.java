@@ -1,14 +1,128 @@
 package com.facialaccess.service;
 
+import com.facialaccess.dao.AdminDAO;
+import com.facialaccess.model.Admin;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Service de sécurité.
  * Gère le hachage des mots de passe et la protection anti-brute force.
  */
 public class SecurityService {
+    
+    private static final int MAX_ATTEMPTS = 5;
+    private static final int LOCKOUT_DURATION_MINUTES = 15;
+    
+    private final AdminDAO adminDAO;
+    private final Map<String, LoginAttempt> loginAttempts;
+    
+    public SecurityService() {
+        this.adminDAO = new AdminDAO();
+        this.loginAttempts = new HashMap<>();
+    }
+    
+    /**
+     * Authentifie un administrateur.
+     * 
+     * @param username Le nom d'utilisateur
+     * @param password Le mot de passe en clair
+     * @return true si l'authentification réussit
+     */
+    public boolean authenticate(String username, String password) {
+        // Vérifier si le compte est verrouillé
+        if (isAccountLocked(username)) {
+            return false;
+        }
+        
+        // Récupérer l'admin depuis la base de données
+        Admin admin = adminDAO.findByUsername(username);
+        
+        if (admin == null) {
+            recordFailedAttempt(username);
+            return false;
+        }
+        
+        // Vérifier le mot de passe
+        boolean authenticated = verifyPassword(password, admin.getPasswordHash());
+        
+        if (authenticated) {
+            clearLoginAttempts(username);
+        } else {
+            recordFailedAttempt(username);
+        }
+        
+        return authenticated;
+    }
+    
+    /**
+     * Obtient le nombre de tentatives restantes avant verrouillage.
+     * 
+     * @param username Le nom d'utilisateur
+     * @return Le nombre de tentatives restantes
+     */
+    public int getRemainingAttempts(String username) {
+        LoginAttempt attempt = loginAttempts.get(username);
+        if (attempt == null) {
+            return MAX_ATTEMPTS;
+        }
+        
+        // Si le compte est verrouillé, retourner 0
+        if (isAccountLocked(username)) {
+            return 0;
+        }
+        
+        return Math.max(0, MAX_ATTEMPTS - attempt.attemptCount);
+    }
+    
+    /**
+     * Vérifie si un compte est verrouillé.
+     * 
+     * @param username Le nom d'utilisateur
+     * @return true si le compte est verrouillé
+     */
+    private boolean isAccountLocked(String username) {
+        LoginAttempt attempt = loginAttempts.get(username);
+        if (attempt == null || attempt.attemptCount < MAX_ATTEMPTS) {
+            return false;
+        }
+        
+        // Vérifier si la période de verrouillage est expirée
+        LocalDateTime unlockTime = attempt.lastAttempt.plusMinutes(LOCKOUT_DURATION_MINUTES);
+        if (LocalDateTime.now().isAfter(unlockTime)) {
+            // Réinitialiser les tentatives
+            clearLoginAttempts(username);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Enregistre une tentative de connexion échouée.
+     * 
+     * @param username Le nom d'utilisateur
+     */
+    private void recordFailedAttempt(String username) {
+        LoginAttempt attempt = loginAttempts.getOrDefault(username, new LoginAttempt());
+        attempt.attemptCount++;
+        attempt.lastAttempt = LocalDateTime.now();
+        loginAttempts.put(username, attempt);
+    }
+    
+    /**
+     * Efface les tentatives de connexion pour un utilisateur.
+     * 
+     * @param username Le nom d'utilisateur
+     */
+    private void clearLoginAttempts(String username) {
+        loginAttempts.remove(username);
+    }
     
     /**
      * Hash un mot de passe avec SHA-256.
@@ -47,6 +161,14 @@ public class SecurityService {
     public static boolean verifyPassword(String password, String hash) {
         String passwordHash = hashPassword(password);
         return passwordHash.equals(hash);
+    }
+    
+    /**
+     * Classe interne pour suivre les tentatives de connexion.
+     */
+    private static class LoginAttempt {
+        int attemptCount = 0;
+        LocalDateTime lastAttempt = LocalDateTime.now();
     }
     
     /**

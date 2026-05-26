@@ -5,12 +5,15 @@ import com.facialaccess.model.Utilisateur;
 import com.facialaccess.vision.*;
 import org.bytedeco.opencv.opencv_core.*;
 
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Service de reconnaissance faciale.
- * Coordonne la détection, extraction de features et comparaison.
  */
 public class FaceRecognitionService {
     
@@ -21,13 +24,37 @@ public class FaceRecognitionService {
     private static final double RECOGNITION_THRESHOLD = 0.75;
     
     public FaceRecognitionService() {
-        // Initialiser les composants vision
-        String cascadePath = getClass().getResource("/haarcascades/haarcascade_frontalface_default.xml").getPath();
+        // Extraire le fichier cascade vers un chemin temporaire réel sur le disque
+        // (nécessaire car OpenCV ne peut pas lire depuis un JAR ou un chemin URL Windows)
+        String cascadePath = extractCascadeToTemp();
         this.faceDetector = new FaceDetector(cascadePath);
         this.featureExtractor = new FeatureExtractor();
         this.utilisateurDAO = new UtilisateurDAO();
-        
         System.out.println("✓ Service de reconnaissance faciale initialisé");
+    }
+
+    /**
+     * Copie le fichier cascade depuis les ressources vers un fichier temporaire
+     * et retourne son chemin absolu utilisable par OpenCV.
+     */
+    private String extractCascadeToTemp() {
+        try (InputStream is = getClass().getResourceAsStream(
+                "/haarcascades/haarcascade_frontalface_default.xml")) {
+
+            if (is == null) {
+                throw new RuntimeException("Fichier cascade introuvable dans les ressources");
+            }
+
+            Path tmp = Files.createTempFile("haarcascade_frontalface_default", ".xml");
+            tmp.toFile().deleteOnExit();
+            Files.copy(is, tmp, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("✓ Cascade extraite vers: " + tmp.toAbsolutePath());
+            return tmp.toAbsolutePath().toString();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Impossible d'extraire le fichier cascade: " + e.getMessage(), e);
+        }
     }
     
     // Constructeur pour injection de dépendances (tests)

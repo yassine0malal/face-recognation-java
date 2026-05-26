@@ -1,10 +1,8 @@
 package com.facialaccess;
 
 import com.facialaccess.dao.DatabaseManager;
+import com.facialaccess.util.NavigationUtil;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -12,25 +10,11 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Safe Database Init
             DatabaseManager.getInstance();
-            
-            // Load the initial interface (e.g., login.fxml)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dashboard_parent.fxml"));
-            Parent root = loader.load();
-            
-            Scene scene = new Scene(root, 800, 600);
-            
-            // Link the global modern design stylesheet directly from resources
-            String cssPath = getClass().getResource("/css/global.css").toExternalForm();
-            scene.getStylesheets().add(cssPath);
-            
-            primaryStage.setTitle("VigilantCore - Security Portal");
-            primaryStage.setScene(scene);
+            NavigationUtil.navigateToWelcome(primaryStage);
             primaryStage.show();
-            
         } catch (Exception e) {
-            System.err.println("Failed to launch main viewport interface framework context.");
+            System.err.println("Erreur lors du chargement de l'application: " + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -6,44 +6,50 @@
 
 /* --- Sidebar Navigation --- */
 .sidebar {
-    -fx-background-color: #EEF2F7;
-    -fx-padding: 24px 16px 24px 16px;
-    -fx-spacing: 8px;
-    -fx-border-color: transparent #E2E8F0 transparent transparent;
-    -fx-border-width: 1px;
+    -fx-background-color: #EEEDF6;
+    -fx-padding: 32px 20px 24px 20px;
+    -fx-spacing: 4px;
+    /* -fx-background-radius: 0 24px 24px 0; */
 }
 .heading-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #0F172A;
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #3B5BDB;
+    -fx-padding: 0 0 2px 4px;
 }
 .sub-text {
-    -fx-font-size: 12px;
-    -fx-text-fill: #64748B;
-    -fx-padding: 0 0 16px 0;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #8B8FA3;
+    -fx-padding: 0 0 28px 4px;
+    -fx-letter-spacing: 1.5;
 }
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #475569;
+    -fx-text-fill: #4A4E69;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 12px 16px;
-    -fx-background-radius: 8px;
+    -fx-padding: 14px 20px;
+    -fx-background-radius: 12px;
     -fx-cursor: hand;
+    -fx-graphic-text-gap: 14;
 }
 .sidebar-button:hover {
-    -fx-background-color: #E2E8F0;
-    -fx-text-fill: #0F172A;
+    -fx-background-color: #E0DEF0;
+    -fx-text-fill: #1E1B4B;
 }
 .sidebar-button-active {
-    -fx-background-color: #2563EB;
+    -fx-background-color: #3B5BDB;
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
     -fx-font-weight: 600;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 12px 16px;
-    -fx-background-radius: 8px;
+    -fx-padding: 14px 20px;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(59, 91, 219, 0.35), 10, 0, 0, 3);
 }
 
 /* --- Common Dashboard UI Elements --- */

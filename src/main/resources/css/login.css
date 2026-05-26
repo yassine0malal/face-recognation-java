@@ -1,0 +1,195 @@
+/* Login Screen Styles - Sentinel Precision Theme */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Login Card */
+.login-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 4);
+}
+
+/* Input Container */
+.input-container {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 6px;
+    -fx-padding: 12 15;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 6px;
+    -fx-border-width: 1px;
+}
+
+/* Text Fields - IMPORTANT: Make them clickable */
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-prompt-text-fill: #bbb;
+    -fx-cursor: text;
+}
+
+.text-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.password-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-prompt-text-fill: #bbb;
+    -fx-cursor: text;
+}
+
+.password-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Login Button */
+.login-button {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6px;
+    -fx-padding: 14 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(21, 101, 192, 0.3), 8, 0, 0, 2);
+}
+
+.login-button:hover {
+    -fx-background-color: #1976d2;
+    -fx-effect: dropshadow(gaussian, rgba(21, 101, 192, 0.4), 10, 0, 0, 3);
+}
+
+.login-button:pressed {
+    -fx-background-color: #0d47a1;
+    -fx-effect: dropshadow(gaussian, rgba(21, 101, 192, 0.2), 5, 0, 0, 1);
+}
+
+.login-button:disabled {
+    -fx-background-color: #90caf9;
+    -fx-opacity: 0.6;
+}
+
+.login-button .text {
+    -fx-fill: white;
+}
+
+/* Toggle Password Button */
+.toggle-password-btn {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-max-width: 24px;
+    -fx-max-height: 24px;
+}
+
+.toggle-password-btn:hover {
+    -fx-opacity: 0.7;
+}
+
+.toggle-password-btn:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+
+/* System Status Indicator */
+.status-dot {
+    -fx-background-color: #4caf50;
+    -fx-background-radius: 50%;
+    -fx-min-width: 8px;
+    -fx-min-height: 8px;
+    -fx-max-width: 8px;
+    -fx-max-height: 8px;
+}
+
+.status-dot.offline {
+    -fx-background-color: #f44336;
+}
+
+.status-dot.warning {
+    -fx-background-color: #ff9800;
+}
+
+/* Hyperlinks */
+.hyperlink {
+    -fx-font-size: 10px;
+    -fx-text-fill: #666;
+    -fx-border-width: 0;
+    -fx-underline: false;
+    -fx-padding: 2 5;
+    -fx-cursor: hand;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #1565c0;
+    -fx-underline: true;
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #666;
+}
+
+/* Error Label */
+.error-label {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 12px;
+    -fx-padding: 5 0;
+}
+
+/* Remove default button styling */
+.button {
+    -fx-background-insets: 0;
+}
+
+.button:focused {
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Ensure all interactive elements are clickable */
+.text-field,
+.password-field,
+.button {
+    -fx-mouse-transparent: false;
+}
+
+/* Welcome Option Buttons */
+.welcome-option-btn {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 10px;
+    -fx-border-color: #e8e8e8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-padding: 16 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);
+}
+
+.welcome-option-btn:hover {
+    -fx-background-color: white;
+    -fx-border-color: #1565c0;
+    -fx-effect: dropshadow(gaussian, rgba(21,101,192,0.15), 12, 0, 0, 3);
+}
+
+.welcome-option-btn:pressed {
+    -fx-background-color: #e8f0fe;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 1);
+}

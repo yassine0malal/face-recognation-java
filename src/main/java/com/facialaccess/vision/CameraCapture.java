@@ -122,4 +122,11 @@ public class CameraCapture {
     public double getFrameRate() {
         return grabber != null ? grabber.getFrameRate() : 0;
     }
+
+    /**
+     * Expose le grabber pour accès direct aux frames.
+     */
+    public FrameGrabber getGrabber() {
+        return grabber;
+    }
 }

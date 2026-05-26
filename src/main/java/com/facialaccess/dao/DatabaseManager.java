@@ -130,7 +130,7 @@ public class DatabaseManager {
      */
     private boolean tablesExist() {
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeQuery("SELECT 1 FROM USERS LIMIT 1");
+            stmt.executeQuery("SELECT 1 FROM PERSONNE LIMIT 1");
             return true;
         } catch (SQLException e) {
             return false;

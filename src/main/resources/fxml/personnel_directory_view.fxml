@@ -13,10 +13,6 @@
         <URL value="@../css/global.css" />
         <URL value="@../css/personnel_directory.css" />
     </stylesheets>
-
-    <!-- Shared Header -->
-    <fx:include source="header.fxml" />
-
     <!-- Main Content Container -->
     <VBox spacing="24.0" style="-fx-padding: 32px;" VBox.vgrow="ALWAYS">
 
