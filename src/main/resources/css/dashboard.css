@@ -1,0 +1,293 @@
+/* ── STAT CARDS ── */
+.stat-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.06), 10, 0, 0, 2);
+    -fx-padding: 18px 18px 20px 18px;
+    -fx-spacing: 8px;
+    -fx-min-width: 160px;
+}
+
+.stat-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #64748B;
+}
+
+.stat-value {
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #0F172A;
+}
+
+.trend-positive {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #16A34A;
+    -fx-background-color: #DCFCE7;
+    -fx-background-radius: 9999px;
+    -fx-padding: 3px 9px;
+}
+
+.trend-negative {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #DC2626;
+    -fx-background-color: #FEE2E2;
+    -fx-background-radius: 9999px;
+    -fx-padding: 3px 9px;
+}
+
+.trend-alert {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #D97706;
+    -fx-background-color: #FEF3C7;
+    -fx-background-radius: 9999px;
+    -fx-padding: 3px 9px;
+}
+
+.trend-stable {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #3B5BDB;
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 9999px;
+    -fx-padding: 3px 9px;
+}
+
+/* ── SECTION CARDS ── */
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.06), 10, 0, 0, 2);
+    -fx-padding: 24px;
+}
+
+.section-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #0F172A;
+}
+
+.section-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #94A3B8;
+}
+
+.badge-blue {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #3B5BDB;
+    -fx-background-color: #EFF6FF;
+    -fx-background-radius: 9999px;
+    -fx-padding: 5px 14px;
+    -fx-border-color: #BFDBFE;
+    -fx-border-radius: 9999px;
+    -fx-border-width: 1px;
+}
+
+/* ── BAR CHART ── */
+.chart-bar {
+    -fx-bar-fill: #BFDBFE;
+    -fx-background-radius: 4px 4px 0 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #F1F5F9;
+    -fx-stroke-dash-array: 4 4;
+}
+
+.axis {
+    -fx-tick-label-fill: #94A3B8;
+    -fx-font-size: 11px;
+}
+
+.axis-label {
+    -fx-text-fill: transparent;
+}
+
+/* ── RECENT ACTIVITY ITEMS ── */
+.activity-item {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px 12px;
+    -fx-spacing: 10px;
+}
+
+.activity-avatar {
+    -fx-background-radius: 50%;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+    -fx-alignment: CENTER;
+}
+
+.activity-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1E293B;
+}
+
+.activity-meta {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94A3B8;
+}
+
+/* ── TABLE ── */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F8FAFC;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 44px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #64748B;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
+
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F1F5F9 transparent;
+    -fx-border-width: 1px;
+    -fx-cell-size: 60px;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: #F8FAFC;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #EFF6FF;
+}
+
+.table-cell {
+    -fx-text-fill: #334155;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 12px;
+}
+
+/* ── STATUS CHIPS ── */
+.chip-success {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #15803D;
+    -fx-font-weight: 700;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 12px;
+    -fx-background-radius: 9999px;
+}
+
+.chip-denied {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #B91C1C;
+    -fx-font-weight: 700;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 12px;
+    -fx-background-radius: 9999px;
+}
+
+/* ── EXPORT BUTTON ── */
+.btn-export {
+    -fx-background-color: #2563EB;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-padding: 10px 22px;
+    -fx-background-radius: 9px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(37,99,235,0.3), 8, 0, 0, 2);
+}
+
+.btn-export:hover {
+    -fx-background-color: #1D4ED8;
+}
+
+/* ── USER AVATAR INITIALS ── */
+.avatar-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* ── CHART TOGGLE BUTTONS ── */
+.toggle-group {
+    -fx-background-color: #F1F5F9;
+    -fx-background-radius: 9999px;
+    -fx-padding: 3px;
+}
+
+.toggle-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748B;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 5px 14px;
+    -fx-background-radius: 9999px;
+    -fx-cursor: hand;
+}
+
+.toggle-btn:hover {
+    -fx-background-color: #E2E8F0;
+    -fx-text-fill: #334155;
+}
+
+.toggle-btn-active {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #3B5BDB;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-padding: 5px 14px;
+    -fx-background-radius: 9999px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 4, 0, 0, 1);
+}
+
+/* ── SPLIT MENU BUTTON (Export) ── */
+.split-menu-button {
+    -fx-background-color: #2563EB;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-background-radius: 9px;
+    -fx-cursor: hand;
+}
+
+.split-menu-button .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 10px 4px 10px 22px;
+}
+
+.split-menu-button .arrow-button {
+    -fx-background-color: #1D4ED8;
+    -fx-background-radius: 0 9px 9px 0;
+    -fx-padding: 10px 12px;
+}
+
+.split-menu-button .arrow-button .arrow {
+    -fx-background-color: #FFFFFF;
+}
+
+.split-menu-button:hover .label,
+.split-menu-button:hover {
+    -fx-background-color: #1D4ED8;
+}

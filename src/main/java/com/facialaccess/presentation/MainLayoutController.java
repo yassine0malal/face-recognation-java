@@ -18,13 +18,13 @@ public class MainLayoutController {
     @FXML
     public void initialize() {
         // Loads the default initial view into the center area
-        navigateTo("/fxml/dashboard.fxml");
+        navigateTo("/fxml/dashboard_view.fxml");
     }
 
     @FXML
     private void handleShowDashboardView(ActionEvent event) {
         updateActiveNavigationState(event);
-        navigateTo("/fxml/dashboard.fxml");
+        navigateTo("/fxml/dashboard_view.fxml");
     }
 
     @FXML

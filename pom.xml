@@ -84,6 +84,13 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- Apache POI pour export Excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
         <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -132,6 +139,10 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>
+                        <arg>--add-reads</arg>
+                        <arg>com.facialaccess=ALL-UNNAMED</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -142,6 +153,10 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.facialaccess.App</mainClass>
+                    <options>
+                        <option>--add-reads</option>
+                        <option>com.facialaccess=ALL-UNNAMED</option>
+                    </options>
                 </configuration>
             </plugin>
 

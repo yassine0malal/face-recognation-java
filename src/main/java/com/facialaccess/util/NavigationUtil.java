@@ -25,7 +25,7 @@ public class NavigationUtil {
     }
 
     public static void navigateToDashboard(Stage stage) throws IOException {
-        load(stage, "/fxml/layouts/main_layout.fxml", "VigilantCore - Admin Control Center", 1440, 900, true);
+        load(stage, "/fxml/layouts/main_layout.fxml", "VigilantCore - Admin Control Center", 1280, 800, true);
     }
 
     public static void navigateToUserManagement(Stage stage) throws IOException {
@@ -45,7 +45,12 @@ public class NavigationUtil {
         stage.setMaxWidth(Double.MAX_VALUE);
         stage.setMaxHeight(Double.MAX_VALUE);
 
-        Scene scene = new Scene(root, width, height);
+        // Use screen size to adapt layout
+        javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
+        double actualWidth  = Math.min(width,  screenBounds.getWidth()  * 0.95);
+        double actualHeight = Math.min(height, screenBounds.getHeight() * 0.95);
+
+        Scene scene = new Scene(root, actualWidth, actualHeight);
         stage.setScene(scene);
         stage.setTitle(title);
         stage.setResizable(resizable);
