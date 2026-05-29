@@ -12,7 +12,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         try {
             DatabaseManager.getInstance();
-            NavigationUtil.navigateToDashboard(primaryStage);
+            NavigationUtil.navigateToWelcome(primaryStage);
             primaryStage.show();
         } catch (Exception e) {
             System.err.println("Erreur lors du chargement de l'application: " + e.getMessage());
