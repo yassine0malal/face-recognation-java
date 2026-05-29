@@ -1,30 +1,30 @@
 /* ============================================
-   SETTINGS VIEW STYLES
+   SETTINGS VIEW STYLES - MODERN DESIGN
    ============================================ */
 
 .settings-container {
-    -fx-background-color: #f8f9fa;
+    -fx-background-color: #f5f7fa;
     -fx-padding: 0;
 }
 
-/* Header */
+/* Header with Gradient */
 .settings-header {
-    -fx-background-color: white;
-    -fx-padding: 24 32;
-    -fx-border-color: #e9ecef;
-    -fx-border-width: 0 0 1 0;
+    -fx-background-color: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+    -fx-padding: 32 40;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 15, 0, 0, 3);
 }
 
 .settings-title {
-    -fx-font-size: 28px;
+    -fx-font-size: 32px;
     -fx-font-weight: 700;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
 }
 
 .settings-subtitle {
-    -fx-font-size: 14px;
-    -fx-text-fill: #6c757d;
-    -fx-padding: 4 0 0 0;
+    -fx-font-size: 15px;
+    -fx-text-fill: rgba(255, 255, 255, 0.9);
+    -fx-padding: 6 0 0 0;
 }
 
 /* Scroll Pane */
@@ -34,241 +34,367 @@
 }
 
 .settings-scroll > .viewport {
-    -fx-background-color: #f8f9fa;
+    -fx-background-color: #f5f7fa;
 }
 
 .settings-scroll .scroll-bar:vertical {
     -fx-background-color: transparent;
-    -fx-pref-width: 8px;
+    -fx-pref-width: 10px;
+}
+
+.settings-scroll .scroll-bar:vertical .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 5px;
 }
 
 .settings-scroll .scroll-bar:vertical .thumb {
-    -fx-background-color: #cbd5e0;
-    -fx-background-radius: 4px;
+    -fx-background-color: linear-gradient(to bottom, #667eea, #764ba2);
+    -fx-background-radius: 5px;
 }
 
 .settings-scroll .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #a0aec0;
+    -fx-background-color: linear-gradient(to bottom, #5568d3, #6a3f8f);
 }
 
 /* Content */
 .settings-content {
-    -fx-padding: 24 32 32 32;
+    -fx-padding: 32 40 40 40;
 }
 
-/* Section */
+/* Section with Modern Card Design */
 .settings-section {
     -fx-background-color: white;
-    -fx-background-radius: 12px;
-    -fx-padding: 24;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 2);
+    -fx-background-radius: 16px;
+    -fx-padding: 32;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 20, 0, 0, 4);
+    -fx-border-color: rgba(102, 126, 234, 0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 16px;
+}
+
+.settings-section:hover {
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.15), 25, 0, 0, 5);
 }
 
 .section-title {
-    -fx-font-size: 18px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #2c3e50;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #2d3748;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.1), 3, 0, 0, 1);
 }
 
 .section-separator {
-    -fx-padding: 12 0 12 0;
+    -fx-padding: 16 0 16 0;
+    -fx-background-color: linear-gradient(to right, #667eea, #764ba2);
+    -fx-pref-height: 2px;
 }
 
 /* Grid */
 .settings-grid {
-    -fx-padding: 12 0 0 0;
+    -fx-padding: 16 0 0 0;
 }
 
 .settings-grid .label {
     -fx-alignment: CENTER_LEFT;
 }
 
-/* Field Labels */
+/* Field Labels with Icon Style */
 .field-label {
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-font-weight: 600;
-    -fx-text-fill: #495057;
-    -fx-min-width: 180px;
+    -fx-text-fill: #4a5568;
+    -fx-min-width: 200px;
 }
 
 .field-value {
-    -fx-font-size: 14px;
-    -fx-text-fill: #6c757d;
-}
-
-.field-hint {
-    -fx-font-size: 12px;
-    -fx-text-fill: #868e96;
-    -fx-font-style: italic;
-}
-
-/* Text Fields */
-.settings-field {
-    -fx-pref-width: 400px;
-    -fx-pref-height: 40px;
-    -fx-background-color: #f8f9fa;
-    -fx-background-radius: 8px;
-    -fx-border-color: #dee2e6;
-    -fx-border-radius: 8px;
-    -fx-border-width: 1px;
-    -fx-padding: 8 12;
-    -fx-font-size: 14px;
-}
-
-.settings-field:focused {
-    -fx-border-color: #5c7cfa;
-    -fx-background-color: white;
-}
-
-/* ComboBox */
-.settings-combo {
-    -fx-pref-height: 40px;
-    -fx-background-color: #f8f9fa;
-    -fx-background-radius: 8px;
-    -fx-border-color: #dee2e6;
-    -fx-border-radius: 8px;
-    -fx-border-width: 1px;
-}
-
-.settings-combo:focused {
-    -fx-border-color: #5c7cfa;
-    -fx-background-color: white;
-}
-
-.settings-combo .list-cell {
-    -fx-padding: 8 12;
-}
-
-/* Buttons */
-.primary-button {
-    -fx-background-color: #5c7cfa;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-    -fx-padding: 10 24;
-    -fx-background-radius: 8px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(92, 124, 250, 0.3), 8, 0, 0, 2);
-}
-
-.primary-button:hover {
-    -fx-background-color: #4c6ef5;
-}
-
-.primary-button:pressed {
-    -fx-background-color: #3b5bdb;
-}
-
-.secondary-button {
-    -fx-background-color: #e9ecef;
-    -fx-text-fill: #495057;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-    -fx-padding: 10 24;
-    -fx-background-radius: 8px;
-    -fx-cursor: hand;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #dee2e6;
-}
-
-.secondary-button:pressed {
-    -fx-background-color: #ced4da;
-}
-
-/* Profile Picture */
-.profile-picture-container {
-    -fx-padding: 12 0 24 0;
-}
-
-.profile-picture-wrapper {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 12, 0, 0, 2);
-}
-
-.profile-picture-circle {
-    -fx-fill: linear-gradient(to bottom right, #5c7cfa, #4c6ef5);
-}
-
-.profile-initials {
-    -fx-font-size: 36px;
-    -fx-font-weight: 700;
-    -fx-text-fill: white;
-}
-
-/* Role Badge */
-.role-badge {
-    -fx-background-color: #e7f5ff;
-    -fx-text-fill: #1971c2;
-    -fx-padding: 6 16;
-    -fx-background-radius: 16px;
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-}
-
-/* Save Status */
-.save-status {
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
+    -fx-text-fill: #718096;
     -fx-font-weight: 500;
 }
 
+.field-hint {
+    -fx-font-size: 13px;
+    -fx-text-fill: #a0aec0;
+    -fx-font-style: italic;
+}
+
+/* Modern Text Fields */
+.settings-field {
+    -fx-pref-width: 420px;
+    -fx-pref-height: 48px;
+    -fx-background-color: #f7fafc;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-border-width: 2px;
+    -fx-padding: 12 16;
+    -fx-font-size: 15px;
+    -fx-text-fill: #2d3748;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.03), 5, 0, 0, 2);
+}
+
+.settings-field:focused {
+    -fx-border-color: #667eea;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.2), 10, 0, 0, 3);
+}
+
+.settings-field:hover {
+    -fx-border-color: #cbd5e0;
+}
+
+/* Modern ComboBox */
+.settings-combo {
+    -fx-pref-height: 48px;
+    -fx-background-color: #f7fafc;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.03), 5, 0, 0, 2);
+}
+
+.settings-combo:focused {
+    -fx-border-color: #667eea;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.2), 10, 0, 0, 3);
+}
+
+.settings-combo:hover {
+    -fx-border-color: #cbd5e0;
+}
+
+.settings-combo .list-cell {
+    -fx-padding: 12 16;
+    -fx-font-size: 14px;
+}
+
+/* Modern Gradient Buttons */
+.primary-button {
+    -fx-background-color: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+    -fx-padding: 14 32;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.4), 12, 0, 0, 4);
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to right, #5568d3 0%, #6a3f8f 100%);
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.6), 15, 0, 0, 5);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.primary-button:pressed {
+    -fx-background-color: linear-gradient(to right, #4c5fc7 0%, #5d3680 100%);
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.3), 8, 0, 0, 2);
+}
+
+.secondary-button {
+    -fx-background-color: white;
+    -fx-text-fill: #667eea;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-padding: 14 32;
+    -fx-background-radius: 12px;
+    -fx-border-color: #667eea;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 8, 0, 0, 2);
+}
+
+.secondary-button:hover {
+    -fx-background-color: #f7fafc;
+    -fx-border-color: #5568d3;
+    -fx-text-fill: #5568d3;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.2), 10, 0, 0, 3);
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #edf2f7;
+    -fx-border-color: #4c5fc7;
+}
+
+/* Profile Picture with Gradient Border */
+.profile-picture-container {
+    -fx-padding: 16 0 32 0;
+}
+
+.profile-picture-wrapper {
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.3), 20, 0, 0, 5);
+}
+
+.profile-picture-circle {
+    -fx-fill: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-stroke: white;
+    -fx-stroke-width: 4;
+}
+
+.profile-initials {
+    -fx-font-size: 42px;
+    -fx-font-weight: 800;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+}
+
+/* Modern Role Badge */
+.role-badge {
+    -fx-background-color: linear-gradient(to right, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+    -fx-text-fill: #667eea;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-border-color: rgba(102, 126, 234, 0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 20px;
+}
+
+/* Save Status with Animation */
+.save-status {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8px;
+}
+
 .save-status.success {
-    -fx-text-fill: #28a745;
+    -fx-text-fill: #38a169;
+    -fx-background-color: rgba(56, 161, 105, 0.1);
 }
 
 .save-status.error {
-    -fx-text-fill: #dc3545;
+    -fx-text-fill: #e53e3e;
+    -fx-background-color: rgba(229, 62, 62, 0.1);
 }
 
-/* Slider */
+/* Modern Slider */
+.threshold-slider {
+    -fx-pref-width: 350px;
+}
+
 .threshold-slider .track {
-    -fx-background-color: #e9ecef;
-    -fx-background-radius: 4px;
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 8px;
+    -fx-pref-height: 8px;
 }
 
 .threshold-slider .thumb {
-    -fx-background-color: #5c7cfa;
+    -fx-background-color: linear-gradient(to bottom, #667eea, #764ba2);
     -fx-background-radius: 50%;
-    -fx-pref-width: 20px;
-    -fx-pref-height: 20px;
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-effect: dropshadow(gaussian, rgba(102, 126, 234, 0.4), 10, 0, 0, 3);
 }
 
 .threshold-slider .thumb:hover {
-    -fx-background-color: #4c6ef5;
+    -fx-background-color: linear-gradient(to bottom, #5568d3, #6a3f8f);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 .threshold-value {
-    -fx-font-size: 16px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #5c7cfa;
-    -fx-min-width: 50px;
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #667eea;
+    -fx-min-width: 60px;
+    -fx-padding: 4 12;
+    -fx-background-color: rgba(102, 126, 234, 0.1);
+    -fx-background-radius: 8px;
 }
 
-/* CheckBox */
+/* Modern CheckBox */
 .check-box {
-    -fx-font-size: 14px;
-    -fx-text-fill: #495057;
+    -fx-font-size: 15px;
+    -fx-text-fill: #4a5568;
+    -fx-font-weight: 500;
 }
 
 .check-box .box {
     -fx-background-color: white;
-    -fx-border-color: #dee2e6;
-    -fx-border-radius: 4px;
-    -fx-background-radius: 4px;
+    -fx-border-color: #cbd5e0;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-border-width: 2px;
+    -fx-pref-width: 22px;
+    -fx-pref-height: 22px;
+}
+
+.check-box:hover .box {
+    -fx-border-color: #667eea;
 }
 
 .check-box:selected .box {
-    -fx-background-color: #5c7cfa;
-    -fx-border-color: #5c7cfa;
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-border-color: #667eea;
 }
 
 .check-box:selected .mark {
     -fx-background-color: white;
+    -fx-shape: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z";
 }
 
-/* Responsive */
+/* Separator with Gradient */
+.separator {
+    -fx-background-color: transparent;
+}
+
+.separator .line {
+    -fx-border-color: transparent;
+    -fx-background-color: linear-gradient(to right, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    -fx-pref-height: 2px;
+}
+
+/* Hover Effects for Sections */
+.settings-section {
+    -fx-transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .settings-field {
+        -fx-pref-width: 350px;
+    }
+    
+    .threshold-slider {
+        -fx-pref-width: 280px;
+    }
+}
+
 @media (max-width: 1200px) {
     .settings-field {
         -fx-pref-width: 300px;
     }
+    
+    .field-label {
+        -fx-min-width: 160px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        -fx-opacity: 0;
+        -fx-translate-y: -10px;
+    }
+    to {
+        -fx-opacity: 1;
+        -fx-translate-y: 0;
+    }
+}
+
+/* Custom Scrollbar Styling */
+.settings-scroll .scroll-bar:vertical .increment-button,
+.settings-scroll .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.settings-scroll .scroll-bar:vertical .increment-arrow,
+.settings-scroll .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: "";
 }

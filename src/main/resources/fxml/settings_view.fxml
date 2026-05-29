@@ -9,11 +9,14 @@
       fx:controller="com.facialaccess.presentation.SettingsController"
       styleClass="settings-container" stylesheets="@../css/settings.css">
 
-    <!-- Header -->
+    <!-- Header with Modern Design -->
     <HBox styleClass="settings-header">
-        <VBox HBox.hgrow="ALWAYS">
-            <Label text="Settings" styleClass="settings-title"/>
+        <VBox HBox.hgrow="ALWAYS" spacing="4">
+            <Label text=" Settings" styleClass="settings-title"/>
             <Label text="Manage your application preferences and profile" styleClass="settings-subtitle"/>
+        </VBox>
+        <VBox alignment="CENTER_RIGHT" spacing="8">
+            <Label text="Last Updated" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 12px;"/>
         </VBox>
     </HBox>
 
@@ -23,7 +26,10 @@
 
             <!-- Profile Section -->
             <VBox styleClass="settings-section">
-                <Label text="Profile Settings" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="👤" style="-fx-font-size: 24px;"/>
+                    <Label text="Profile Settings" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="16">
@@ -68,7 +74,10 @@
 
             <!-- Security Section -->
             <VBox styleClass="settings-section">
-                <Label text="Security" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="🔒" style="-fx-font-size: 24px;"/>
+                    <Label text="Security" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="16">
@@ -101,7 +110,10 @@
 
             <!-- Recognition Settings -->
             <VBox styleClass="settings-section">
-                <Label text="Face Recognition" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="🎯" style="-fx-font-size: 24px;"/>
+                    <Label text="Face Recognition" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="16">
@@ -134,7 +146,10 @@
 
             <!-- Application Settings -->
             <VBox styleClass="settings-section">
-                <Label text="Application" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="🎨" style="-fx-font-size: 24px;"/>
+                    <Label text="Application" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="16">
@@ -179,7 +194,10 @@
 
             <!-- Database Management -->
             <VBox styleClass="settings-section">
-                <Label text="Database Management" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="💾" style="-fx-font-size: 24px;"/>
+                    <Label text="Database Management" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="16">
@@ -213,7 +231,10 @@
 
             <!-- About Section -->
             <VBox styleClass="settings-section">
-                <Label text="About" styleClass="section-title"/>
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="ℹ️" style="-fx-font-size: 24px;"/>
+                    <Label text="About" styleClass="section-title"/>
+                </HBox>
                 <Separator styleClass="section-separator"/>
                 
                 <GridPane styleClass="settings-grid" hgap="20" vgap="12">
