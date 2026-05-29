@@ -1,0 +1,119 @@
+/* Camera Screen Styles - BioAccess Theme */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Scanning Circle Animation */
+.scanning-circle {
+    -fx-stroke: #6c8cff;
+    -fx-stroke-width: 3px;
+    -fx-effect: dropshadow(gaussian, rgba(108, 140, 255, 0.4), 15, 0, 0, 0);
+}
+
+/* Pulse Animation for the circle */
+@keyframes pulse {
+    0% {
+        -fx-stroke-width: 3px;
+        -fx-opacity: 1.0;
+    }
+    50% {
+        -fx-stroke-width: 4px;
+        -fx-opacity: 0.7;
+    }
+    100% {
+        -fx-stroke-width: 3px;
+        -fx-opacity: 1.0;
+    }
+}
+
+/* Face Overlay Container */
+#faceOverlay {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 20, 0, 0, 5);
+}
+
+/* Status Label */
+#statusLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Instruction Label */
+#instructionLabel {
+    -fx-font-size: 13px;
+    -fx-text-fill: #6c757d;
+}
+
+/* Secondary Buttons */
+.secondary-button {
+    -fx-background-color: white;
+    -fx-text-fill: #6c757d;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-background-radius: 6px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-border-color: #dee2e6;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
+}
+
+.secondary-button:hover {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #adb5bd;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #e9ecef;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 1);
+}
+
+.secondary-button .text {
+    -fx-fill: #6c757d;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    -fx-progress-color: #6c8cff;
+}
+
+/* Camera View */
+#cameraView {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
+}
+
+/* Success State */
+.success-circle {
+    -fx-stroke: #28a745;
+    -fx-stroke-width: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(40, 167, 69, 0.5), 20, 0, 0, 0);
+}
+
+.success-text {
+    -fx-text-fill: #28a745;
+}
+
+/* Error State */
+.error-circle {
+    -fx-stroke: #dc3545;
+    -fx-stroke-width: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(220, 53, 69, 0.5), 20, 0, 0, 0);
+}
+
+.error-text {
+    -fx-text-fill: #dc3545;
+}
+
+/* Warning State */
+.warning-circle {
+    -fx-stroke: #ffc107;
+    -fx-stroke-width: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 193, 7, 0.5), 20, 0, 0, 0);
+}
+
+.warning-text {
+    -fx-text-fill: #ffc107;
+}
