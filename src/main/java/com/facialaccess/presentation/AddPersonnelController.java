@@ -3,6 +3,7 @@ package com.facialaccess.presentation;
 import com.facialaccess.dao.UtilisateurDAO;
 import com.facialaccess.model.Utilisateur;
 import com.facialaccess.vision.FeatureExtractor;
+import com.facialaccess.vision.FaceDetector;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,12 +39,37 @@ public class AddPersonnelController {
     private File selectedImageFile;
     private UtilisateurDAO utilisateurDAO;
     private FeatureExtractor featureExtractor;
+    private FaceDetector faceDetector;
 
     @FXML
     public void initialize() {
         utilisateurDAO = new UtilisateurDAO();
         featureExtractor = new FeatureExtractor();
+        faceDetector = initializeFaceDetector();
         roleComboBox.setItems(FXCollections.observableArrayList("stagiaire","securite", "employe"));
+    }
+    
+    /**
+     * Initialise le détecteur de visages avec le fichier cascade.
+     */
+    private FaceDetector initializeFaceDetector() {
+        try {
+            java.io.InputStream is = getClass().getResourceAsStream(
+                    "/haarcascades/haarcascade_frontalface_default.xml");
+            
+            if (is == null) {
+                throw new RuntimeException("Fichier cascade introuvable dans les ressources");
+            }
+            
+            java.nio.file.Path tmp = java.nio.file.Files.createTempFile("haarcascade_frontalface_default", ".xml");
+            tmp.toFile().deleteOnExit();
+            java.nio.file.Files.copy(is, tmp, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            
+            return new FaceDetector(tmp.toAbsolutePath().toString());
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'initialisation du détecteur: " + e.getMessage());
+            return null;
+        }
     }
 
     public void setParentController(PersonnelDirectoryController parentController) {
@@ -105,36 +131,70 @@ public class AddPersonnelController {
 
         byte[] imageData = null;
         byte[] faceVector = null;
-        Mat faceImage = null;
+        Mat fullImage = null;
+        Mat faceRegion = null;
 
         if (selectedImageFile != null && selectedImageFile.exists()) {
             try {
                 // 1. Save the raw image bytes for the UI
                 imageData = Files.readAllBytes(selectedImageFile.toPath());
                 
-                // 2. Read image using OpenCV to generate the vector
-                faceImage = imread(selectedImageFile.getAbsolutePath(), IMREAD_COLOR);
+                // 2. Read image using OpenCV
+                fullImage = imread(selectedImageFile.getAbsolutePath(), IMREAD_COLOR);
                 
-                if (faceImage != null && !faceImage.empty()) {
-                    // Extract feature vector using FeatureExtractor
-                    faceVector = featureExtractor.extractFeatures(faceImage);
-                    
-                    if (faceVector == null) {
-                        showError("Could not extract facial features. Please select a clearer photo.");
-                        return;
-                    }
-                    System.out.println("✓ Feature vector extracted: " + faceVector.length + " bytes");
-                } else {
+                if (fullImage == null || fullImage.empty()) {
                     showError("OpenCV could not read the image file.");
                     return;
                 }
+                
+                // 3. Detect face in the image
+                if (faceDetector == null) {
+                    showError("Face detector not initialized. Please restart the application.");
+                    return;
+                }
+                
+                org.bytedeco.opencv.opencv_core.Rect faceRect = faceDetector.detectLargestFace(fullImage);
+                
+                if (faceRect == null) {
+                    showError("No face detected in the image. Please select a photo with a clear face.");
+                    return;
+                }
+                
+                System.out.println("✓ Face detected at: x=" + faceRect.x() + ", y=" + faceRect.y() + 
+                                   ", w=" + faceRect.width() + ", h=" + faceRect.height());
+                
+                // 4. Extract the face region
+                faceRegion = faceDetector.extractFaceRegion(fullImage, faceRect);
+                
+                if (faceRegion == null || faceRegion.empty()) {
+                    showError("Could not extract face region. Please try another photo.");
+                    return;
+                }
+                
+                // 5. Extract feature vector from the face region (NOT the full image!)
+                faceVector = featureExtractor.extractFeatures(faceRegion);
+                
+                if (faceVector == null) {
+                    showError("Could not extract facial features. Please select a clearer photo.");
+                    return;
+                }
+                
+                System.out.println("✓ Feature vector extracted: " + faceVector.length + " bytes");
+                
             } catch (IOException e) {
                 showError("Failed to read image file: " + e.getMessage());
                 return;
+            } catch (Exception e) {
+                showError("Error processing image: " + e.getMessage());
+                e.printStackTrace();
+                return;
             } finally {
                 // CRITICAL: Always release OpenCV Mat objects to prevent C++ memory leaks!
-                if (faceImage != null) {
-                    faceImage.release();
+                if (fullImage != null) {
+                    fullImage.release();
+                }
+                if (faceRegion != null) {
+                    faceRegion.release();
                 }
             }
         }

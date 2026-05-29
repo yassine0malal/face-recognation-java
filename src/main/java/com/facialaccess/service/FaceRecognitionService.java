@@ -2,6 +2,7 @@ package com.facialaccess.service;
 
 import com.facialaccess.dao.UtilisateurDAO;
 import com.facialaccess.model.Utilisateur;
+import com.facialaccess.util.FaceRecognitionConfig;
 import com.facialaccess.vision.*;
 import org.bytedeco.opencv.opencv_core.*;
 
@@ -20,8 +21,6 @@ public class FaceRecognitionService {
     private final FaceDetector faceDetector;
     private final FeatureExtractor featureExtractor;
     private final UtilisateurDAO utilisateurDAO;
-    
-    private static final double RECOGNITION_THRESHOLD = 0.75;
     
     public FaceRecognitionService() {
         // Extraire le fichier cascade vers un chemin temporaire réel sur le disque
@@ -140,14 +139,6 @@ public class FaceRecognitionService {
             return new RecognitionResult(null, 0.0, faceRect, "Erreur extraction");
         }
         
-        // Extraire les features
-        byte[] features = featureExtractor.extractFeatures(faceRegion);
-        faceRegion.release();
-        
-        if (features == null) {
-            return new RecognitionResult(null, 0.0, faceRect, "Erreur features");
-        }
-        
         // Récupérer tous les utilisateurs actifs avec vecteur facial
         List<Utilisateur> users = utilisateurDAO.getActiveUtilisateurs();
         List<Utilisateur> usersWithFace = new ArrayList<>();
@@ -161,13 +152,17 @@ public class FaceRecognitionService {
         }
         
         if (usersWithFace.isEmpty()) {
+            faceRegion.release();
             return new RecognitionResult(null, 0.0, faceRect, "Aucun utilisateur enregistré");
         }
         
-        // Trouver le meilleur match
-        FeatureExtractor.MatchResult match = featureExtractor.findBestMatch(faceImage, storedFeatures);
+        // Trouver le meilleur match en utilisant la région du visage (pas l'image complète!)
+        FeatureExtractor.MatchResult match = featureExtractor.findBestMatch(faceRegion, storedFeatures);
         
-        if (match == null || match.getScore() < RECOGNITION_THRESHOLD) {
+        // Libérer la région du visage après utilisation
+        faceRegion.release();
+        
+        if (match == null || match.getScore() < FaceRecognitionConfig.RECOGNITION_THRESHOLD) {
             return new RecognitionResult(null, match != null ? match.getScore() : 0.0, faceRect, "Visage non reconnu");
         }
         
@@ -212,7 +207,7 @@ public class FaceRecognitionService {
      * Obtient le seuil de reconnaissance.
      */
     public double getRecognitionThreshold() {
-        return RECOGNITION_THRESHOLD;
+        return FaceRecognitionConfig.RECOGNITION_THRESHOLD;
     }
     
     /**

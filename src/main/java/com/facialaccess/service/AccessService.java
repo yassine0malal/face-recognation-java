@@ -2,6 +2,7 @@ package com.facialaccess.service;
 
 import com.facialaccess.dao.AccessLogDAO;
 import com.facialaccess.model.AccessLog;
+import com.facialaccess.util.FaceRecognitionConfig;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 public class AccessService {
     
     private final AccessLogDAO accessLogDAO;
-    private static final double MIN_CONFIDENCE_THRESHOLD = 0.75; // Seuil de confiance minimum
     
     public AccessService() {
         this.accessLogDAO = new AccessLogDAO();
@@ -71,7 +71,7 @@ public class AccessService {
      * Vérifie si l'accès doit être accordé selon le score de confiance.
      */
     public boolean shouldGrantAccess(double confidenceScore) {
-        return confidenceScore >= MIN_CONFIDENCE_THRESHOLD;
+        return FaceRecognitionConfig.shouldGrantAccess(confidenceScore);
     }
     
     /**
@@ -198,6 +198,6 @@ public class AccessService {
      * Obtient le seuil de confiance minimum.
      */
     public double getMinConfidenceThreshold() {
-        return MIN_CONFIDENCE_THRESHOLD;
+        return FaceRecognitionConfig.RECOGNITION_THRESHOLD;
     }
 }
