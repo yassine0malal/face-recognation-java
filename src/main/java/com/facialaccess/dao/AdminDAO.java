@@ -18,6 +18,49 @@ public class AdminDAO {
     }
     
     /**
+     * Récupère un admin par son ID.
+     */
+    public Admin getAdminById(int id) {
+        String sql = "SELECT p.*, a.username, a.password_hash, a.failed_attempts, a.locked_until " +
+                     "FROM PERSONNE p " +
+                     "INNER JOIN ADMIN a ON p.id = a.id " +
+                     "WHERE p.id = ? AND p.type = 'ADMIN'";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return mapResultSetToAdmin(rs);
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de l'admin: " + e.getMessage());
+        }
+        return null;
+    }
+    
+    /**
+     * Met à jour les informations d'un admin.
+     */
+    public boolean updateAdmin(Admin admin) {
+        String sqlPersonne = "UPDATE PERSONNE SET full_name = ?, email = ?, is_active = ? WHERE id = ?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlPersonne)) {
+            pstmt.setString(1, admin.getFullName());
+            pstmt.setString(2, admin.getEmail());
+            pstmt.setBoolean(3, admin.isActive());
+            pstmt.setInt(4, admin.getId());
+            
+            return pstmt.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour de l'admin: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
      * Récupère un admin par son username.
      */
     public Admin getAdminByUsername(String username) {

@@ -45,6 +45,12 @@ public class MainLayoutController {
         navigateTo("/fxml/personnel_directory_view.fxml");
     }
 
+    @FXML
+    private void handleShowSettingsView(ActionEvent event) {
+        updateActiveNavigationState(event);
+        navigateTo("/fxml/settings_view.fxml");
+    }
+
     private void navigateTo(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

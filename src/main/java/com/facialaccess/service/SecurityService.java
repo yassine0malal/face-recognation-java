@@ -125,6 +125,25 @@ public class SecurityService {
     }
     
     /**
+     * Vérifie le mot de passe d'un admin.
+     */
+    public boolean verifyAdminPassword(int adminId, String password) {
+        Admin admin = adminDAO.getAdminById(adminId);
+        if (admin == null) {
+            return false;
+        }
+        return verifyPassword(password, admin.getPasswordHash());
+    }
+    
+    /**
+     * Met à jour le mot de passe d'un admin.
+     */
+    public boolean updateAdminPassword(int adminId, String newPassword) {
+        String newPasswordHash = hashPassword(newPassword);
+        return adminDAO.changePassword(adminId, newPasswordHash);
+    }
+    
+    /**
      * Hash un mot de passe avec SHA-256.
      * 
      * @param password Le mot de passe en clair

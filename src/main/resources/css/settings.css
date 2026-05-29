@@ -1,0 +1,274 @@
+/* ============================================
+   SETTINGS VIEW STYLES
+   ============================================ */
+
+.settings-container {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 0;
+}
+
+/* Header */
+.settings-header {
+    -fx-background-color: white;
+    -fx-padding: 24 32;
+    -fx-border-color: #e9ecef;
+    -fx-border-width: 0 0 1 0;
+}
+
+.settings-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #2c3e50;
+}
+
+.settings-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6c757d;
+    -fx-padding: 4 0 0 0;
+}
+
+/* Scroll Pane */
+.settings-scroll {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.settings-scroll > .viewport {
+    -fx-background-color: #f8f9fa;
+}
+
+.settings-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8px;
+}
+
+.settings-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: #cbd5e0;
+    -fx-background-radius: 4px;
+}
+
+.settings-scroll .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #a0aec0;
+}
+
+/* Content */
+.settings-content {
+    -fx-padding: 24 32 32 32;
+}
+
+/* Section */
+.settings-section {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 10, 0, 0, 2);
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #2c3e50;
+}
+
+.section-separator {
+    -fx-padding: 12 0 12 0;
+}
+
+/* Grid */
+.settings-grid {
+    -fx-padding: 12 0 0 0;
+}
+
+.settings-grid .label {
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Field Labels */
+.field-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #495057;
+    -fx-min-width: 180px;
+}
+
+.field-value {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6c757d;
+}
+
+.field-hint {
+    -fx-font-size: 12px;
+    -fx-text-fill: #868e96;
+    -fx-font-style: italic;
+}
+
+/* Text Fields */
+.settings-field {
+    -fx-pref-width: 400px;
+    -fx-pref-height: 40px;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8px;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+}
+
+.settings-field:focused {
+    -fx-border-color: #5c7cfa;
+    -fx-background-color: white;
+}
+
+/* ComboBox */
+.settings-combo {
+    -fx-pref-height: 40px;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8px;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+}
+
+.settings-combo:focused {
+    -fx-border-color: #5c7cfa;
+    -fx-background-color: white;
+}
+
+.settings-combo .list-cell {
+    -fx-padding: 8 12;
+}
+
+/* Buttons */
+.primary-button {
+    -fx-background-color: #5c7cfa;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 10 24;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(92, 124, 250, 0.3), 8, 0, 0, 2);
+}
+
+.primary-button:hover {
+    -fx-background-color: #4c6ef5;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #3b5bdb;
+}
+
+.secondary-button {
+    -fx-background-color: #e9ecef;
+    -fx-text-fill: #495057;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 10 24;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #dee2e6;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #ced4da;
+}
+
+/* Profile Picture */
+.profile-picture-container {
+    -fx-padding: 12 0 24 0;
+}
+
+.profile-picture-wrapper {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 12, 0, 0, 2);
+}
+
+.profile-picture-circle {
+    -fx-fill: linear-gradient(to bottom right, #5c7cfa, #4c6ef5);
+}
+
+.profile-initials {
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-text-fill: white;
+}
+
+/* Role Badge */
+.role-badge {
+    -fx-background-color: #e7f5ff;
+    -fx-text-fill: #1971c2;
+    -fx-padding: 6 16;
+    -fx-background-radius: 16px;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+/* Save Status */
+.save-status {
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+}
+
+.save-status.success {
+    -fx-text-fill: #28a745;
+}
+
+.save-status.error {
+    -fx-text-fill: #dc3545;
+}
+
+/* Slider */
+.threshold-slider .track {
+    -fx-background-color: #e9ecef;
+    -fx-background-radius: 4px;
+}
+
+.threshold-slider .thumb {
+    -fx-background-color: #5c7cfa;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+}
+
+.threshold-slider .thumb:hover {
+    -fx-background-color: #4c6ef5;
+}
+
+.threshold-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #5c7cfa;
+    -fx-min-width: 50px;
+}
+
+/* CheckBox */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #dee2e6;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #5c7cfa;
+    -fx-border-color: #5c7cfa;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .settings-field {
+        -fx-pref-width: 300px;
+    }
+}

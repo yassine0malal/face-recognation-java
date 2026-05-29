@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.facialaccess.presentation.SettingsController"
+      styleClass="settings-container" stylesheets="@../css/settings.css">
+
+    <!-- Header -->
+    <HBox styleClass="settings-header">
+        <VBox HBox.hgrow="ALWAYS">
+            <Label text="Settings" styleClass="settings-title"/>
+            <Label text="Manage your application preferences and profile" styleClass="settings-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <!-- Content ScrollPane -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="settings-scroll">
+        <VBox styleClass="settings-content" spacing="24">
+
+            <!-- Profile Section -->
+            <VBox styleClass="settings-section">
+                <Label text="Profile Settings" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="16">
+                    <!-- Profile Picture -->
+                    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" 
+                          styleClass="profile-picture-container" alignment="CENTER" spacing="12">
+                        <StackPane styleClass="profile-picture-wrapper">
+                            <javafx.scene.shape.Circle fx:id="profilePictureCircle" radius="60" 
+                                                        styleClass="profile-picture-circle"/>
+                            <Label fx:id="profileInitials" text="AD" styleClass="profile-initials"/>
+                        </StackPane>
+                        <Button fx:id="changePhotoBtn" text="Change Photo" styleClass="secondary-button"
+                                onAction="#handleChangePhoto"/>
+                    </VBox>
+
+                    <!-- Full Name -->
+                    <Label text="Full Name" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                           styleClass="field-label"/>
+                    <TextField fx:id="fullNameField" promptText="Enter your full name"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="settings-field"/>
+
+                    <!-- Email -->
+                    <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <TextField fx:id="emailField" promptText="Enter your email"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="settings-field"/>
+
+                    <!-- Role -->
+                    <Label text="Role" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+                           styleClass="field-label"/>
+                    <Label fx:id="roleLabel" text="Administrator" 
+                           GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="role-badge"/>
+
+                    <!-- Save Profile Button -->
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="4" spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="saveProfileBtn" text="Save Changes" styleClass="primary-button"
+                                onAction="#handleSaveProfile"/>
+                        <Label fx:id="profileSaveStatus" styleClass="save-status" visible="false"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Security Section -->
+            <VBox styleClass="settings-section">
+                <Label text="Security" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="16">
+                    <!-- Current Password -->
+                    <Label text="Current Password" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                           styleClass="field-label"/>
+                    <PasswordField fx:id="currentPasswordField" promptText="Enter current password"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="settings-field"/>
+
+                    <!-- New Password -->
+                    <Label text="New Password" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                           styleClass="field-label"/>
+                    <PasswordField fx:id="newPasswordField" promptText="Enter new password"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="settings-field"/>
+
+                    <!-- Confirm Password -->
+                    <Label text="Confirm Password" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <PasswordField fx:id="confirmPasswordField" promptText="Confirm new password"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="settings-field"/>
+
+                    <!-- Change Password Button -->
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="changePasswordBtn" text="Change Password" styleClass="primary-button"
+                                onAction="#handleChangePassword"/>
+                        <Label fx:id="passwordChangeStatus" styleClass="save-status" visible="false"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Recognition Settings -->
+            <VBox styleClass="settings-section">
+                <Label text="Face Recognition" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="16">
+                    <!-- Recognition Threshold -->
+                    <Label text="Recognition Threshold" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                           styleClass="field-label"/>
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="12" alignment="CENTER_LEFT">
+                        <Slider fx:id="thresholdSlider" min="0.5" max="0.9" value="0.6" 
+                                showTickLabels="true" showTickMarks="true" majorTickUnit="0.1"
+                                minorTickCount="1" styleClass="threshold-slider" prefWidth="300"/>
+                        <Label fx:id="thresholdValueLabel" text="60%" styleClass="threshold-value"/>
+                    </HBox>
+                    <Label text="Lower = More permissive, Higher = More strict" 
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="field-hint"/>
+
+                    <!-- Camera Quality -->
+                    <Label text="Camera Quality" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <ComboBox fx:id="cameraQualityCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                              styleClass="settings-combo" prefWidth="300"/>
+
+                    <!-- Save Recognition Settings -->
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="saveRecognitionBtn" text="Save Settings" styleClass="primary-button"
+                                onAction="#handleSaveRecognitionSettings"/>
+                        <Label fx:id="recognitionSaveStatus" styleClass="save-status" visible="false"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Application Settings -->
+            <VBox styleClass="settings-section">
+                <Label text="Application" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="16">
+                    <!-- Theme -->
+                    <Label text="Theme" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                           styleClass="field-label"/>
+                    <ComboBox fx:id="themeCombo" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                              styleClass="settings-combo" prefWidth="300"/>
+
+                    <!-- Language -->
+                    <Label text="Language" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                           styleClass="field-label"/>
+                    <ComboBox fx:id="languageCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                              styleClass="settings-combo" prefWidth="300"/>
+
+                    <!-- Auto Logout -->
+                    <Label text="Auto Logout" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2" spacing="12" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="autoLogoutCheck" text="Enable auto logout after inactivity"/>
+                        <ComboBox fx:id="autoLogoutTimeCombo" styleClass="settings-combo" prefWidth="120"
+                                  disable="true"/>
+                    </HBox>
+
+                    <!-- Notifications -->
+                    <Label text="Notifications" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+                           styleClass="field-label"/>
+                    <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="8">
+                        <CheckBox fx:id="notifyAccessCheck" text="Notify on access attempts"/>
+                        <CheckBox fx:id="notifyFailedCheck" text="Notify on failed recognitions"/>
+                        <CheckBox fx:id="notifySoundCheck" text="Enable sound notifications"/>
+                    </VBox>
+
+                    <!-- Save App Settings -->
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="4" spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="saveAppBtn" text="Save Settings" styleClass="primary-button"
+                                onAction="#handleSaveAppSettings"/>
+                        <Label fx:id="appSaveStatus" styleClass="save-status" visible="false"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Database Management -->
+            <VBox styleClass="settings-section">
+                <Label text="Database Management" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="16">
+                    <!-- Database Info -->
+                    <Label text="Database Size" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                           styleClass="field-label"/>
+                    <Label fx:id="dbSizeLabel" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="0"
+                           styleClass="field-value"/>
+
+                    <Label text="Total Users" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                           styleClass="field-label"/>
+                    <Label fx:id="totalUsersLabel" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           styleClass="field-value"/>
+
+                    <Label text="Total Logs" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <Label fx:id="totalLogsLabel" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="2"
+                           styleClass="field-value"/>
+
+                    <!-- Database Actions -->
+                    <HBox GridPane.columnIndex="1" GridPane.rowIndex="3" spacing="12" alignment="CENTER_LEFT">
+                        <Button text="Clean Old Logs" styleClass="secondary-button"
+                                onAction="#handleCleanOldLogs"/>
+                        <Button text="Export Data" styleClass="secondary-button"
+                                onAction="#handleExportData"/>
+                        <Button text="Backup Database" styleClass="secondary-button"
+                                onAction="#handleBackupDatabase"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- About Section -->
+            <VBox styleClass="settings-section">
+                <Label text="About" styleClass="section-title"/>
+                <Separator styleClass="section-separator"/>
+                
+                <GridPane styleClass="settings-grid" hgap="20" vgap="12">
+                    <Label text="Application" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                           styleClass="field-label"/>
+                    <Label text="Sentinel Precision" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                           styleClass="field-value"/>
+
+                    <Label text="Version" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                           styleClass="field-label"/>
+                    <Label text="1.0.0" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           styleClass="field-value"/>
+
+                    <Label text="Build Date" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+                           styleClass="field-label"/>
+                    <Label text="May 2026" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                           styleClass="field-value"/>
+
+                    <Label text="License" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+                           styleClass="field-label"/>
+                    <Label text="Proprietary" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                           styleClass="field-value"/>
+                </GridPane>
+            </VBox>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>
