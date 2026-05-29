@@ -32,8 +32,10 @@ public class FaceRecognitionConfig {
      * Intervalle de frames pour la reconnaissance (1 frame sur N).
      * Plus l'intervalle est grand, moins le CPU est sollicité,
      * mais la reconnaissance est plus lente.
+     * 
+     * Valeur optimisée : 8 frames (~0.27 secondes à 30 FPS)
      */
-    public static final int RECOGNITION_INTERVAL = 15;
+    public static final int RECOGNITION_INTERVAL = 8;
     
     /**
      * Paramètres de détection de visage (Haar Cascade).
