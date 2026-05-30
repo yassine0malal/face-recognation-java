@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import java.net.URL?>
 
-<?import javafx.scene.layout.VBox?>
-
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.facialaccess.ui.DashboardController">
-    <!-- À implémenter -->
-</VBox>
+<VBox spacing="24" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../css/global.css" />
+        <URL value="@../css/dashboard.css" />
+    </stylesheets>
+    
+    </VBox>

@@ -34,6 +34,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
         <!-- JavaCV et OpenCV -->
         <dependency>
@@ -79,6 +84,13 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- Apache POI pour export Excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
         <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -89,6 +101,38 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.12</version>
+        </dependency>
+        
+        <!-- Ikonli for Icons -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>12.3.1</version>
+        </dependency>
+        
+        <!-- OpenPDF dependency for real PDF generation -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>1.3.30</version>
+        </dependency>
+       
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -102,6 +146,10 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>
+                        <arg>--add-reads</arg>
+                        <arg>com.facialaccess=ALL-UNNAMED</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
@@ -112,6 +160,10 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.facialaccess.App</mainClass>
+                    <options>
+                        <option>--add-reads</option>
+                        <option>com.facialaccess=ALL-UNNAMED</option>
+                    </options>
                 </configuration>
             </plugin>
 
@@ -135,6 +187,13 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            
+            <!-- Maven Surefire Plugin pour les tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.3</version>
             </plugin>
         </plugins>
     </build>
