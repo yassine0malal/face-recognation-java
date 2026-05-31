@@ -16,7 +16,6 @@
         <URL value="@../../css/dashboard.css" />
     </stylesheets>
 
-    <!-- Center: Sidebar (full-height) + right content column (header + content area) -->
     <center>
         <HBox>
             <!-- Full-height Sidebar -->
@@ -47,27 +46,29 @@
 
                 <Region VBox.vgrow="ALWAYS" />
 
+                <!-- Sidebar footer with dynamic user info -->
                 <HBox spacing="12" alignment="CENTER_LEFT"
                     style="-fx-padding: 14 16; -fx-background-color: transparent;">
-                    <Circle radius="20.0" fill="#4A5568"
+                    <Circle fx:id="sidebarStatusDot" radius="20.0" fill="#4A5568"
                         style="-fx-stroke: #3B5BDB; -fx-stroke-width: 2;" />
                     <VBox alignment="CENTER_LEFT" spacing="2">
-                        <Label text="Operator 01"
+                        <Label fx:id="sidebarOperatorName" text="Operator 01"
                             style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #1E1B4B;" />
                         <HBox alignment="CENTER_LEFT" spacing="5">
                             <Circle radius="4" fill="#10B981" />
-                            <Label text="SYSTEM SECURE"
+                            <Label fx:id="sidebarStatusLabel" text="SYSTEM SECURE"
                                 style="-fx-font-size: 10px; -fx-text-fill: #10B981; -fx-font-weight: 700;" />
                         </HBox>
                     </VBox>
                 </HBox>
             </VBox>
 
-            <!-- Right column: Header on top, then content area below -->
+            <!-- Right column: Header + content -->
             <VBox HBox.hgrow="ALWAYS">
-                <!-- Header bar (only above content area, not the sidebar) -->
+                <!-- Header bar -->
                 <HBox alignment="CENTER_LEFT" prefHeight="72.0" spacing="24.0"
                     style="-fx-background-color: #FFFFFF; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; -fx-padding: 0 32px;" minHeight="60.0">
+
                     <HBox alignment="CENTER_LEFT" spacing="12.0" HBox.hgrow="ALWAYS" maxWidth="520.0" maxHeight="40.0"
                         style="-fx-background-color: #F1F5F9; -fx-background-radius: 9999px; -fx-padding: 8px 16px; -fx-border-color: #E2E8F0; -fx-border-radius: 9999px;">
                         <SVGPath content="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#94A3B8" scaleX="0.8" scaleY="0.8" />
@@ -75,8 +76,11 @@
                             style="-fx-background-color: transparent; -fx-border-width: 0; -fx-padding: 0; -fx-font-size: 14px; -fx-text-fill: #334155; -fx-prompt-text-fill: #94A3B8;"
                             HBox.hgrow="ALWAYS" />
                     </HBox>
+
                     <Region HBox.hgrow="ALWAYS" />
+
                     <HBox alignment="CENTER" spacing="16.0">
+                        <!-- other header buttons (shield, lock, bell) can stay as is -->
                         <Button style="-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 8px; -fx-background-radius: 8px;">
                             <graphic>
                                 <SVGPath content="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" fill="#64748B" scaleX="0.9" scaleY="0.9" />
@@ -92,8 +96,16 @@
                                 <SVGPath content="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" fill="#64748B" scaleX="0.9" scaleY="0.9" />
                             </graphic>
                         </Button>
+
                         <Region prefWidth="8.0" />
-                        <Label text="John Admin" style="-fx-font-weight: bold; -fx-text-fill: #1E293B;" />
+
+                        <!-- Dynamic user info -->
+                        <Label fx:id="headerUserName" style="-fx-font-weight: bold; -fx-text-fill: #1E293B;" />
+                        <!-- <Label fx:id="headerUserRole" text="" style="-fx-text-fill: #64748B; -fx-font-size: 12px;" /> -->
+
+                        <!-- Logout button -->
+                        <Button text="Logout" onAction="#handleLogout"
+                            style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 6px 16px; -fx-background-radius: 6px; -fx-cursor: hand;" />
                     </HBox>
                 </HBox>
 
@@ -103,7 +115,6 @@
         </HBox>
     </center>
 
-    <!-- Global Footer (spans full width including sidebar) -->
     <bottom>
         <HBox alignment="CENTER" prefHeight="40.0" spacing="16.0"
             style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0; -fx-padding: 0 32px;">
@@ -113,5 +124,4 @@
             <Label text="v1.0.0" style="-fx-text-fill: #94A3B8; -fx-font-size: 12px; -fx-font-family: 'Inter';" />
         </HBox>
     </bottom>
-
 </BorderPane>
