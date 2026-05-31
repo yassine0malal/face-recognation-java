@@ -18,13 +18,13 @@ public class MainLayoutController {
     @FXML
     public void initialize() {
         // Loads the default initial view into the center area
-        navigateTo("/fxml/dashboard.fxml");
+        navigateTo("/fxml/dashboard_view.fxml");
     }
 
     @FXML
     private void handleShowDashboardView(ActionEvent event) {
         updateActiveNavigationState(event);
-        navigateTo("/fxml/dashboard.fxml");
+        navigateTo("/fxml/dashboard_view.fxml");
     }
 
     @FXML
@@ -43,6 +43,12 @@ public class MainLayoutController {
     private void handleShowUserManagementView(ActionEvent event) {
         updateActiveNavigationState(event);
         navigateTo("/fxml/personnel_directory_view.fxml");
+    }
+
+    @FXML
+    private void handleShowSettingsView(ActionEvent event) {
+        updateActiveNavigationState(event);
+        navigateTo("/fxml/settings_view.fxml");
     }
 
     private void navigateTo(String fxmlPath) {

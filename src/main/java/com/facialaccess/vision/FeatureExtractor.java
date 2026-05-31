@@ -42,10 +42,16 @@ public class FeatureExtractor {
             // 2. Redimensionner à une taille fixe
             resize(grayFace, normalizedFace, new Size(FACE_SIZE, FACE_SIZE));
             
-            // 3. Égaliser l'histogramme
+            // 3. Égaliser l'histogramme pour normaliser l'éclairage
+            // CLAHE (Contrast Limited Adaptive Histogram Equalization) est meilleur que equalizeHist
+            // pour gérer les variations d'éclairage
             equalizeHist(normalizedFace, normalizedFace);
             
-            // 4. Convertir en byte[]
+            // 4. Normaliser les valeurs de pixels (0-255 → 0-1 → 0-255)
+            // Cela aide à réduire l'impact des différences d'exposition
+            normalize(normalizedFace, normalizedFace, 0, 255, NORM_MINMAX, -1, null);
+            
+            // 5. Convertir en byte[]
             byte[] features = matToByteArray(normalizedFace);
             
             grayFace.release();

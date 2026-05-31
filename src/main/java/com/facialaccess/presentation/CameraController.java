@@ -69,9 +69,12 @@ public class CameraController {
     // ── État ──────────────────────────────────────────────────────────────────
     private boolean cameraActive   = false;
     private boolean recognitionDone = false;
+    private boolean accessGranted = false;  // Nouveau : pour suivre si l'accès a été accordé
+    private int noFaceCounter = 0;          // Nouveau : compteur de frames sans visage
+    private static final int NO_FACE_THRESHOLD = 5; // Réduit de 10 à 5 pour réaction plus rapide
 
     /** Analyser 1 frame sur RECOGNITION_INTERVAL pour ne pas surcharger le CPU */
-    private static final int RECOGNITION_INTERVAL = 15;
+    private static final int RECOGNITION_INTERVAL = 8; // Réduit de 15 à 8 pour plus de fluidité
     private int frameCounter = 0;
 
     // ── Classe interne pour convertir Frame → Mat ─────────────────────────────
@@ -115,6 +118,8 @@ public class CameraController {
     private void startCamera() {
         updateTopStatus("INITIALIZING...", false);
         recognitionDone = false;
+        accessGranted = false;
+        noFaceCounter = 0;
         frameCounter    = 0;
 
         new Thread(() -> {
@@ -183,6 +188,7 @@ public class CameraController {
             }
 
             // ── 2. Reconnaissance (toutes les N frames) ───────────────────────
+            // Continue à analyser même après une reconnaissance pour détecter la disparition du visage
             if (!recognitionDone && ++frameCounter >= RECOGNITION_INTERVAL) {
                 frameCounter = 0;
                 // Empêcher plusieurs threads simultanés
@@ -241,24 +247,45 @@ public class CameraController {
      */
     private void handleRecognitionResult(FaceRecognitionService.RecognitionResult result) {
 
-        // Aucun visage détecté → cercle orange, on continue à scanner
+        // Aucun visage détecté
         if (result.getFaceRect() == null) {
-            setCircleColor("#ff9800"); // orange
-            statusLabel.setText("No face detected — keep scanning...");
+            noFaceCounter++;
+            
+            // Si on avait un accès accordé et que le visage disparaît pendant plusieurs frames
+            if (accessGranted && noFaceCounter >= NO_FACE_THRESHOLD) {
+                // Reset à l'état de scan
+                resetToScanningState();
+                System.out.println("⚠ Visage disparu - retour au mode scan");
+            } else if (!accessGranted) {
+                // Mode scan normal - cercle orange
+                setCircleColor("#ff9800"); // orange
+                statusLabel.setText("No face detected");
+                statusLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: 500; -fx-text-fill: #ff9800;");
+                instructionLabel.setText("Position your face within the circle");
+                instructionLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #6c757d;");
+                instructionLabel.setVisible(true);
+            }
+            
             recognitionDone = false;  // permettre une nouvelle tentative
             return;
         }
 
-        // Visage détecté → arrêter les analyses répétées
+        // Visage détecté - reset le compteur
+        noFaceCounter = 0;
+
         if (result.isRecognized()) {
             // ── ACCÈS ACCORDÉ ─────────────────────────────────────────────────
             Utilisateur user = result.getUser();
             double score     = result.getConfidence();
             String scoreStr  = String.format("%.0f%%", score * 100);
 
-            if (accessService != null) {
+            // Log seulement si c'est une nouvelle reconnaissance
+            if (!accessGranted && accessService != null) {
                 accessService.logFaceAccess(user.getId(), score);
+                System.out.println("✓ GRANTED — " + user.getFullName() + " (" + scoreStr + ")");
             }
+
+            accessGranted = true;
 
             // Cercle vert + message de bienvenue
             setCircleColor("#28a745");
@@ -269,15 +296,25 @@ public class CameraController {
             instructionLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #28a745;");
             instructionLabel.setVisible(true);
 
-            System.out.println("✓ GRANTED — " + user.getFullName() + " (" + scoreStr + ")");
-            showActionButtons();
+            // Afficher les boutons après 1 seconde (réduit pour plus de fluidité)
+            if (!actionButtons.isVisible()) {
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(e -> showActionButtons());
+                pause.play();
+            }
+            
+            // Continuer à scanner pour détecter la disparition
+            recognitionDone = false;
 
         } else {
             // ── ACCÈS REFUSÉ ──────────────────────────────────────────────────
             double score = result.getConfidence();
 
-            if (accessService != null) {
+            // Log seulement si c'est une nouvelle tentative
+            if (!accessGranted && accessService != null) {
                 accessService.logFaceAccess(null, score);
+                System.out.println("✗ DENIED — " + result.getMessage()
+                        + " (score: " + String.format("%.2f", score) + ")");
             }
 
             // Cercle rouge + message de refus
@@ -289,10 +326,42 @@ public class CameraController {
             instructionLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #dc3545;");
             instructionLabel.setVisible(true);
 
-            System.out.println("✗ DENIED — " + result.getMessage()
-                    + " (score: " + String.format("%.2f", score) + ")");
-            showActionButtons();
+            // Afficher les boutons après 1 seconde (réduit pour plus de fluidité)
+            if (!actionButtons.isVisible()) {
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(e -> showActionButtons());
+                pause.play();
+            }
+            
+            // Continuer à scanner
+            recognitionDone = false;
         }
+    }
+    
+    /**
+     * Réinitialise l'interface à l'état de scan.
+     */
+    private void resetToScanningState() {
+        accessGranted = false;
+        noFaceCounter = 0;
+        
+        // Remettre le cercle bleu
+        setCircleColor("#5c7cfa");
+        outerCircle.setEffect(null);
+        
+        // Redémarrer les animations
+        startPulseAnimation();
+        
+        // Remettre les messages de scan
+        statusLabel.setText("Scanning face...");
+        statusLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: 500; -fx-text-fill: #2c3e50;");
+        instructionLabel.setText("Position your face within the circle");
+        instructionLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #6c757d;");
+        instructionLabel.setVisible(true);
+        
+        // Cacher les boutons
+        actionButtons.setVisible(false);
+        actionButtons.setManaged(false);
     }
 
     /** Change la couleur du cercle directement (bypass CSS inline). */
@@ -378,25 +447,11 @@ public class CameraController {
     private void handleRetry() {
         actionButtons.setVisible(false);
         actionButtons.setManaged(false);
-        instructionLabel.setText("Position your face within the circle");
-        instructionLabel.setVisible(true);
-        instructionLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #6c757d;");
-        statusLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: 500; -fx-text-fill: #2c3e50;");
-        // Remettre le cercle bleu
-        outerCircle.setStroke(javafx.scene.paint.Color.web("#5c7cfa"));
-        outerCircle.setEffect(null);
-
-        stopCamera();
-
-        // Recréer le service car release() a libéré les ressources OpenCV
-        try {
-            recognitionService = new FaceRecognitionService();
-        } catch (Exception e) {
-            System.err.println("Erreur recréation service: " + e.getMessage());
-        }
-
-        startPulseAnimation();
-        startCamera();
+        
+        resetToScanningState();
+        
+        // Pas besoin de redémarrer la caméra, elle tourne déjà en continu
+        System.out.println("↻ Retry - retour au mode scan");
     }
 
     @FXML
@@ -415,6 +470,8 @@ public class CameraController {
     private void stopCamera() {
         cameraActive = false;
         recognitionDone = false;
+        accessGranted = false;
+        noFaceCounter = 0;
         if (frameTimeline   != null) frameTimeline.stop();
         if (pulseAnimation  != null) pulseAnimation.stop();
         if (rotateAnimation != null) rotateAnimation.stop();

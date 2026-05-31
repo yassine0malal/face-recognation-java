@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+<?import java.net.URL?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+    xmlns="http://javafx.com/javafx/17"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.facialaccess.presentation.DashboardViewController"
+    style="-fx-background-color: #F8FAFC; -fx-background: #F8FAFC; -fx-border-color: transparent;">
+
+    <VBox spacing="20" style="-fx-padding: 24px; -fx-background-color: #F8FAFC;">
+
+        <!-- ── STAT CARDS ROW ── -->
+        <HBox spacing="16">
+
+            <!-- Authorized Access -->
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <HBox alignment="TOP_LEFT" spacing="0">
+                    <HBox alignment="CENTER" style="-fx-background-color: #DCFCE7; -fx-background-radius: 50%; -fx-min-width: 44px; -fx-min-height: 44px; -fx-max-width: 44px; -fx-max-height: 44px;">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#16A34A" scaleX="0.85" scaleY="0.85"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="authorizedTrendLabel" text="+0%" styleClass="trend-positive"/>
+                </HBox>
+                <Label text="Authorized Access" styleClass="stat-label"/>
+                <Label fx:id="authorizedCountLabel" text="0" styleClass="stat-value"/>
+            </VBox>
+
+            <!-- Denied Access -->
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <HBox alignment="TOP_LEFT" spacing="0">
+                    <HBox alignment="CENTER" style="-fx-background-color: #FEE2E2; -fx-background-radius: 50%; -fx-min-width: 44px; -fx-min-height: 44px; -fx-max-width: 44px; -fx-max-height: 44px;">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" fill="#DC2626" scaleX="0.85" scaleY="0.85"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="deniedTrendLabel" text="-0%" styleClass="trend-negative"/>
+                </HBox>
+                <Label text="Denied Access" styleClass="stat-label"/>
+                <Label fx:id="deniedCountLabel" text="0" styleClass="stat-value"/>
+            </VBox>
+
+            <!-- Unknown Faces -->
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <HBox alignment="TOP_LEFT" spacing="0">
+                    <HBox alignment="CENTER" style="-fx-background-color: #FEF3C7; -fx-background-radius: 50%; -fx-min-width: 44px; -fx-min-height: 44px; -fx-max-width: 44px; -fx-max-height: 44px;">
+                        <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#D97706" scaleX="0.85" scaleY="0.85"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="unknownAlertLabel" text="Alert" styleClass="trend-alert"/>
+                </HBox>
+                <Label text="Unknown Faces" styleClass="stat-label"/>
+                <Label fx:id="unknownCountLabel" text="0" styleClass="stat-value"/>
+            </VBox>
+
+            <!-- Active Nodes (Active Users) -->
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <HBox alignment="TOP_LEFT" spacing="0">
+                    <HBox alignment="CENTER" style="-fx-background-color: #EFF6FF; -fx-background-radius: 50%; -fx-min-width: 44px; -fx-min-height: 44px; -fx-max-width: 44px; -fx-max-height: 44px;">
+                        <SVGPath content="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" fill="#3B5BDB" scaleX="0.85" scaleY="0.85"/>
+                    </HBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="Stable" styleClass="trend-stable"/>
+                </HBox>
+                <Label text="Active Nodes" styleClass="stat-label"/>
+                <Label fx:id="activeNodesLabel" text="0" styleClass="stat-value"/>
+            </VBox>
+
+        </HBox>
+
+        <!-- ── CHART + RECENT ACTIVITY ROW ── -->
+        <HBox spacing="16" alignment="TOP_LEFT">
+
+            <!-- System Health Timeline (Bar Chart) -->
+            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                <HBox alignment="CENTER_LEFT">
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label text="System Health Timeline" styleClass="section-title"/>
+                        <Label text="Real-time access activity across all nodes" styleClass="section-subtitle"/>
+                    </VBox>
+                    <HBox spacing="4" alignment="CENTER" styleClass="toggle-group">
+                        <Button fx:id="btn12h" text="12h" styleClass="toggle-btn-active" onAction="#handleChart12h"/>
+                        <Button fx:id="btn7d"  text="7d"  styleClass="toggle-btn"        onAction="#handleChart7d"/>
+                    </HBox>
+                </HBox>
+                <BarChart fx:id="activityChart" prefHeight="240" legendVisible="false"
+                    style="-fx-background-color: transparent; -fx-padding: 8 0 0 0;">
+                    <xAxis>
+                        <CategoryAxis fx:id="chartXAxis" tickLabelFill="#94A3B8"
+                            tickLabelRotation="-45"
+                            style="-fx-tick-label-font-size: 10px;"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="chartYAxis" tickLabelFill="#94A3B8"
+                            style="-fx-tick-label-font-size: 10px;" minorTickVisible="false"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+
+            <!-- Recent Activity -->
+            <VBox styleClass="card" prefWidth="280" minWidth="240" maxWidth="300" spacing="12">
+                <Label text="Recent Activity" styleClass="section-title"/>
+                <VBox fx:id="recentActivityList" spacing="10"/>
+            </VBox>
+
+        </HBox>
+
+        <!-- ── LAST USERS LOGGED IN TABLE ── -->
+        <VBox styleClass="card" spacing="16">
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="2" HBox.hgrow="ALWAYS">
+                    <Label text="Last Users Logged In" styleClass="section-title"/>
+                    <Label text="Detailed tracking of administrative and technical access points" styleClass="section-subtitle"/>
+                </VBox>
+                <SplitMenuButton fx:id="exportBtn" text="Export CSV" styleClass="btn-export" onAction="#handleExportCSV">
+                    <items>
+                        <MenuItem text="Export as CSV"   onAction="#handleExportCSV"/>
+                        <MenuItem text="Export as Excel" onAction="#handleExportExcel"/>
+                    </items>
+                </SplitMenuButton>
+            </HBox>
+
+            <TableView fx:id="logsTable" prefHeight="260" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                <columns>
+                    <TableColumn fx:id="colUserName" text="USER NAME" prefWidth="260"/>
+                    <TableColumn fx:id="colMethod"   text="METHOD"    prefWidth="120"/>
+                    <TableColumn fx:id="colTime"     text="ACCESS TIME" prefWidth="160"/>
+                    <TableColumn fx:id="colStatus"   text="STATUS"    prefWidth="120"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+    </VBox>
+</ScrollPane>
