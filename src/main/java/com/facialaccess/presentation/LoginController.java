@@ -1,9 +1,15 @@
 // package com.facialaccess.presentation;
 
+// import com.facialaccess.dao.AdminDAO;
+// import com.facialaccess.model.Admin;
 // import com.facialaccess.service.SecurityService;
 // import com.facialaccess.util.NavigationUtil;
+
 // import javafx.application.Platform;
 // import javafx.fxml.FXML;
+// import javafx.fxml.FXMLLoader;
+// import javafx.scene.Parent;
+// import javafx.scene.Scene;
 // import javafx.scene.control.*;
 // import javafx.scene.layout.HBox;
 // import javafx.stage.Stage;
@@ -22,12 +28,14 @@
 //     @FXML private Label errorLabel;
 
 //     private SecurityService securityService;
+//     private AdminDAO adminDAO;                         // NEW
 //     private TextField visiblePasswordField;
 //     private boolean passwordVisible = false;
 
 //     @FXML
 //     public void initialize() {
 //         securityService = new SecurityService();
+//         adminDAO = new AdminDAO();                     // NEW
 
 //         visiblePasswordField = new TextField();
 //         visiblePasswordField.setStyle(passwordField.getStyle());
@@ -71,7 +79,15 @@
 
 //                 Platform.runLater(() -> {
 //                     if (authenticated) {
-//                         navigateToDashboard();
+//                         // Fetch the full admin object
+//                         Admin admin = adminDAO.getAdminByUsername(username);
+//                         if (admin != null) {
+//                             navigateToDashboard(admin);
+//                         } else {
+//                             showError("Admin account not found. Contact administrator.");
+//                             loginButton.setDisable(false);
+//                             loginButton.setText("Initialize Session");
+//                         }
 //                     } else {
 //                         int remaining = securityService.getRemainingAttempts(username);
 //                         if (remaining > 0) {
@@ -130,10 +146,22 @@
 //         errorLabel.setManaged(false);
 //     }
 
-//     private void navigateToDashboard() {
+//     // ====================== UPDATED NAVIGATION ======================
+//     private void navigateToDashboard(Admin admin) {
 //         try {
+//             // Load the main layout FXML
+//             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layouts/main_layout.fxml"));
+//             Parent root = loader.load();
+
+//             // Get the controller and pass the admin + stage
+//             MainLayoutController mainController = loader.getController();
 //             Stage stage = (Stage) loginButton.getScene().getWindow();
-//             NavigationUtil.navigateToDashboard(stage);
+//             mainController.setPrimaryStage(stage);
+//             mainController.setCurrentAdmin(admin);
+
+//             // Replace the scene
+//             stage.setScene(new Scene(root));
+//             stage.setTitle("VigilantCore - Admin Dashboard");
 //         } catch (Exception e) {
 //             e.printStackTrace();
 //             showError("Failed to load dashboard: " + e.getMessage());
@@ -145,12 +173,14 @@
 
 
 
+
 package com.facialaccess.presentation;
 
+import com.facialaccess.dao.AdminActionDAO;
 import com.facialaccess.dao.AdminDAO;
 import com.facialaccess.model.Admin;
 import com.facialaccess.service.SecurityService;
-import com.facialaccess.util.NavigationUtil;
+import com.facialaccess.util.SessionManager;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -175,14 +205,14 @@ public class LoginController {
     @FXML private Label errorLabel;
 
     private SecurityService securityService;
-    private AdminDAO adminDAO;                         // NEW
+    private AdminDAO adminDAO;
     private TextField visiblePasswordField;
     private boolean passwordVisible = false;
 
     @FXML
     public void initialize() {
         securityService = new SecurityService();
-        adminDAO = new AdminDAO();                     // NEW
+        adminDAO = new AdminDAO();
 
         visiblePasswordField = new TextField();
         visiblePasswordField.setStyle(passwordField.getStyle());
@@ -199,7 +229,8 @@ public class LoginController {
     private void handleBack() {
         try {
             Stage stage = (Stage) loginButton.getScene().getWindow();
-            NavigationUtil.navigateToWelcome(stage);
+            // utilise la navigation vers la page d'accueil (existante)
+            com.facialaccess.util.NavigationUtil.navigateToWelcome(stage);
         } catch (Exception e) {
             System.err.println("Erreur navigation: " + e.getMessage());
         }
@@ -226,9 +257,16 @@ public class LoginController {
 
                 Platform.runLater(() -> {
                     if (authenticated) {
-                        // Fetch the full admin object
+                        // Récupération de l'admin complet
                         Admin admin = adminDAO.getAdminByUsername(username);
                         if (admin != null) {
+                            // Log de connexion réussie
+                            SessionManager.setLoggedInAdmin(username);
+                            new AdminActionDAO().addAdminAction(
+                                username,
+                                "LOGIN",
+                                "Administrator '" + username + "' logged in successfully."
+                            );
                             navigateToDashboard(admin);
                         } else {
                             showError("Admin account not found. Contact administrator.");
@@ -236,10 +274,21 @@ public class LoginController {
                             loginButton.setText("Initialize Session");
                         }
                     } else {
+                        // Log d'échec d'authentification
+                        new AdminActionDAO().addAdminAction(
+                            username,
+                            "LOGIN_FAILED",
+                            "Failed login attempt for admin username '" + username + "'."
+                        );
                         int remaining = securityService.getRemainingAttempts(username);
                         if (remaining > 0) {
                             showError("Invalid credentials. " + remaining + " attempts remaining.");
                         } else {
+                            new AdminActionDAO().addAdminAction(
+                                username,
+                                "LOCKOUT",
+                                "Admin account '" + username + "' locked out due to excessive failed attempts."
+                            );
                             showError("Account locked. Contact system administrator.");
                         }
                         loginButton.setDisable(false);
@@ -293,20 +342,16 @@ public class LoginController {
         errorLabel.setManaged(false);
     }
 
-    // ====================== UPDATED NAVIGATION ======================
     private void navigateToDashboard(Admin admin) {
         try {
-            // Load the main layout FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/layouts/main_layout.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and pass the admin + stage
             MainLayoutController mainController = loader.getController();
             Stage stage = (Stage) loginButton.getScene().getWindow();
             mainController.setPrimaryStage(stage);
             mainController.setCurrentAdmin(admin);
 
-            // Replace the scene
             stage.setScene(new Scene(root));
             stage.setTitle("VigilantCore - Admin Dashboard");
         } catch (Exception e) {

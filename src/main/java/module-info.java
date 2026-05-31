@@ -26,6 +26,9 @@ module com.facialaccess {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.materialdesign2;
     
+    // OpenPDF
+    requires com.github.librepdf.openpdf;
+    
     // Exports et opens pour JavaFX
     opens com.facialaccess to javafx.fxml;
     opens com.facialaccess.presentation to javafx.fxml;
