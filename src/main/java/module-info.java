@@ -28,6 +28,10 @@ module com.facialaccess {
     
     // OpenPDF
     requires com.github.librepdf.openpdf;
+
+    // Apache POI
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
     
     // Exports et opens pour JavaFX
     opens com.facialaccess to javafx.fxml;

@@ -3,6 +3,7 @@ package com.facialaccess.presentation;
 import com.facialaccess.dao.AccessLogDAO;
 import com.facialaccess.dao.UtilisateurDAO;
 import com.facialaccess.model.AccessLog;
+import com.facialaccess.model.Utilisateur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -18,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -242,13 +246,7 @@ public class DashboardViewController {
         String initials = getInitials(name);
         String avatarColor = "GRANTED".equals(log.getStatus()) ? "#10B981" : "#EF4444";
 
-        StackPane avatar = new StackPane();
-        avatar.getStyleClass().add("activity-avatar");
-        avatar.setStyle("-fx-background-color: " + avatarColor + "; -fx-background-radius: 50%; "
-                + "-fx-min-width: 36px; -fx-min-height: 36px; -fx-max-width: 36px; -fx-max-height: 36px;");
-        Label initialsLabel = new Label(initials);
-        initialsLabel.getStyleClass().add("avatar-label");
-        avatar.getChildren().add(initialsLabel);
+        StackPane avatar = buildActivityAvatar(log, avatarColor, initials);
 
         // Text info
         VBox info = new VBox(2);
@@ -284,12 +282,7 @@ public class DashboardViewController {
                 String initials = getInitials(name);
                 String color = avatarColorForName(name);
 
-                StackPane avatar = new StackPane();
-                avatar.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 50%; "
-                        + "-fx-min-width: 32px; -fx-min-height: 32px; -fx-max-width: 32px; -fx-max-height: 32px;");
-                Label lbl = new Label(initials);
-                lbl.setStyle("-fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: white;");
-                avatar.getChildren().add(lbl);
+                StackPane avatar = buildTableAvatar(log, color, initials);
 
                 Label nameLbl = new Label(name);
                 nameLbl.setStyle("-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #1E293B;");
@@ -479,5 +472,91 @@ public class DashboardViewController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private Utilisateur resolveUtilisateur(AccessLog log) {
+        if (log == null) return null;
+        if (log.getUserId() != null) {
+            return utilisateurDAO.getUtilisateurById(log.getUserId());
+        }
+
+        String name = log.getUserName();
+        if (name == null || name.isBlank()) return null;
+
+        List<Utilisateur> matches = utilisateurDAO.searchUtilisateursByName(name.trim());
+        if (matches.isEmpty()) return null;
+
+        for (Utilisateur u : matches) {
+            if (u.getFullName() != null && u.getFullName().equalsIgnoreCase(name.trim())) {
+                return u;
+            }
+        }
+
+        return matches.get(0);
+    }
+
+    private StackPane buildActivityAvatar(AccessLog log, String avatarColor, String initials) {
+        StackPane avatar = new StackPane();
+        avatar.getStyleClass().add("activity-avatar");
+        avatar.setStyle("-fx-background-color: " + avatarColor + "; -fx-background-radius: 50%; "
+                + "-fx-min-width: 36px; -fx-min-height: 36px; -fx-max-width: 36px; -fx-max-height: 36px;");
+
+        Utilisateur user = resolveUtilisateur(log);
+        if (user != null && user.hasFaceImage()) {
+            try {
+                Image img = new Image(new ByteArrayInputStream(user.getFaceImage()), 36, 36, true, true);
+                ImageView imageView = new ImageView(img);
+                imageView.setFitWidth(36);
+                imageView.setFitHeight(36);
+                imageView.setPreserveRatio(true);
+
+                Rectangle clip = new Rectangle(36, 36);
+                clip.setArcWidth(36);
+                clip.setArcHeight(36);
+                imageView.setClip(clip);
+
+                avatar.getChildren().add(imageView);
+                return avatar;
+            } catch (Exception e) {
+                // Fallback to initials on any image error
+            }
+        }
+
+        Label initialsLabel = new Label(initials);
+        initialsLabel.getStyleClass().add("avatar-label");
+        avatar.getChildren().add(initialsLabel);
+        return avatar;
+    }
+
+    private StackPane buildTableAvatar(AccessLog log, String avatarColor, String initials) {
+        StackPane avatar = new StackPane();
+        avatar.setStyle("-fx-background-color: " + avatarColor + "; -fx-background-radius: 50%; "
+                + "-fx-min-width: 32px; -fx-min-height: 32px; -fx-max-width: 32px; -fx-max-height: 32px;");
+
+        Utilisateur user = resolveUtilisateur(log);
+        if (user != null && user.hasFaceImage()) {
+            try {
+                Image img = new Image(new ByteArrayInputStream(user.getFaceImage()), 32, 32, true, true);
+                ImageView imageView = new ImageView(img);
+                imageView.setFitWidth(32);
+                imageView.setFitHeight(32);
+                imageView.setPreserveRatio(true);
+
+                Rectangle clip = new Rectangle(32, 32);
+                clip.setArcWidth(32);
+                clip.setArcHeight(32);
+                imageView.setClip(clip);
+
+                avatar.getChildren().add(imageView);
+                return avatar;
+            } catch (Exception e) {
+                // Fallback to initials on any image error
+            }
+        }
+
+        Label lbl = new Label(initials);
+        lbl.setStyle("-fx-font-size: 11px; -fx-font-weight: 700; -fx-text-fill: white;");
+        avatar.getChildren().add(lbl);
+        return avatar;
     }
 }
