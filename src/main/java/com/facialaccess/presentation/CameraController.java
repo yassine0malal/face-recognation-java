@@ -211,6 +211,20 @@ public class CameraController {
     // Reconnaissance faciale
     // ─────────────────────────────────────────────────────────────────────────
 
+    private void saveIntruderSnapshot(int logId, Mat mat) {
+        try {
+            java.io.File directory = new java.io.File("intruder_snapshots");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            String filename = "intruder_snapshots/intruder_" + logId + ".jpg";
+            org.bytedeco.opencv.global.opencv_imgcodecs.imwrite(filename, mat);
+            System.out.println("📸 Saved intruder snapshot to " + filename);
+        } catch (Exception e) {
+            System.err.println("Error saving intruder snapshot: " + e.getMessage());
+        }
+    }
+
     /**
      * Lance la reconnaissance dans un thread séparé pour ne pas bloquer l'UI.
      */
@@ -225,6 +239,18 @@ public class CameraController {
             try {
                 FaceRecognitionService.RecognitionResult result =
                         recognitionService.recognizeFace(mat);
+
+                if (result != null && !result.isRecognized() && result.getFaceRect() != null) {
+                    // Face detected but not recognized -> Access Denied.
+                    // Log to DB on the background thread and capture snapshot.
+                    if (!accessGranted && accessService != null) {
+                        int logId = accessService.logFaceAccess(null, result.getConfidence());
+                        if (logId != -1) {
+                            saveIntruderSnapshot(logId, mat);
+                        }
+                    }
+                }
+
                 mat.release();
 
                 if (result == null) {
@@ -310,9 +336,8 @@ public class CameraController {
             // ── ACCÈS REFUSÉ ──────────────────────────────────────────────────
             double score = result.getConfidence();
 
-            // Log seulement si c'est une nouvelle tentative
-            if (!accessGranted && accessService != null) {
-                accessService.logFaceAccess(null, score);
+            // Log de la console locale (la sauvegarde DB a déjà été faite sur le thread d'arrière-plan)
+            if (!accessGranted) {
                 System.out.println("✗ DENIED — " + result.getMessage()
                         + " (score: " + String.format("%.2f", score) + ")");
             }

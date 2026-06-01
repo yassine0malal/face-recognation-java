@@ -103,6 +103,16 @@ public class DatabaseManager {
                     ");");
             System.out.println("✓ Étape 4 : Table ACCESS_LOGS initialisée.");
 
+            // ÉTAPE 4b : Table des logs d'actions administrateur (ADMIN_ACTION_LOGS)
+            stmt.execute("CREATE TABLE IF NOT EXISTS ADMIN_ACTION_LOGS (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "admin_username TEXT NOT NULL, " +
+                    "action_type TEXT NOT NULL, " +
+                    "details TEXT NOT NULL, " +
+                    "action_at DATETIME DEFAULT CURRENT_TIMESTAMP" +
+                    ");");
+            System.out.println("✓ Étape 4b : Table ADMIN_ACTION_LOGS initialisée.");
+
             // ÉTAPE 5 : Création des index de performance
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_personne_email ON PERSONNE(email);");
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_personne_type ON PERSONNE(type);");

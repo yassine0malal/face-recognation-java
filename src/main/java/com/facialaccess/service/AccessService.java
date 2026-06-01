@@ -26,8 +26,9 @@ public class AccessService {
     
     /**
      * Enregistre une tentative d'accès par reconnaissance faciale.
+     * @return L'ID du log généré en base de données, ou -1 en cas d'échec.
      */
-    public boolean logFaceAccess(Integer userId, double confidenceScore) {
+    public int logFaceAccess(Integer userId, double confidenceScore) {
         String status = determineAccessStatus(confidenceScore);
         
         AccessLog log = new AccessLog();
@@ -38,12 +39,13 @@ public class AccessService {
         
         boolean logged = accessLogDAO.addAccessLog(log);
         
-        if (logged) {
+        if (logged && log.getId() != null) {
             System.out.println("Accès " + status + " - Confiance: " + 
                 String.format("%.2f%%", confidenceScore * 100));
+            return log.getId();
         }
         
-        return logged;
+        return -1;
     }
     
     /**
